@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
+/**
+ * JUnit tests for day 3.
+ */
 public class BatteryTest {
     static String[] banks;
     
@@ -34,7 +37,7 @@ public class BatteryTest {
     
     @Test
     public void leftmostIndexPrioritized() {
-        // Should prioritize left 9 first
+        // Should prioritize the left 9 first
         long joltage = twoStrategy.getLargestJoltage("464449544549");
         Assertions.assertEquals(99, joltage);
     }
