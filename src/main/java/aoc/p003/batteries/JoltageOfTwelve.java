@@ -13,10 +13,10 @@ public class JoltageOfTwelve implements JoltageStrategy {
     
     @Override
     public long getLargestJoltage(String batteryBank) {
+        char[] digits = new char[MAX_LIMIT];
+        
         int length = batteryBank.length();
         int start = 0;
-        int end = length;
-        char[] digits = new char[MAX_LIMIT];
         
         for (int i = 0; i < MAX_LIMIT; i++) {
             // Limit starts from 12 and gets decremented during iteration
@@ -24,23 +24,20 @@ public class JoltageOfTwelve implements JoltageStrategy {
             
             int currentMaxIndex = -1;
             while (currentMaxIndex < 0) {
+                // Limit by 12-offset from the right + at least 1-chat long
+                // The offset is decremented each step
+                int end = length - limit + 1;
+                
                 String substring = batteryBank.substring(start, end);
-                int tempMaxIndex = max.greatestIndex(substring) + start;
+                currentMaxIndex = max.greatestIndex(substring) + start;
                 
-                // At least {length - limit} character must follow this one
-                if (tempMaxIndex > length - limit) {
-                    end = tempMaxIndex;
-                    continue;
-                }
-                
-                currentMaxIndex = tempMaxIndex;
                 // Continue from the next position
                 start = currentMaxIndex + 1;
-                // Reset end limit
-                end = length;
             }
+            
             digits[i] = batteryBank.charAt(currentMaxIndex);
         }
+        
         return getJoltage(digits);
     }
     
