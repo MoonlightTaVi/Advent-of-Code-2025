@@ -31,8 +31,8 @@ Started / Finished `2025/12/06`, ~1 hour each part.
 Package `p002`, resourse file `002.txt`, JUnit tests at `IdValidation.java`.
 
 To check whether an ID consists of a repeated subpart, it is simply divided
-by a number that starts from 2 (two halves) and is incremented until a subpart
-takes more than a half of the whole ID.
+by a number that starts from 2 (two halves) and is incremented as long as the subpart
+is at least 1 character long.
 
 # Day 3: Lobby
 
