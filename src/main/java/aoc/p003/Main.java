@@ -20,14 +20,23 @@ import aoc.p003.util.*;
 public class Main {
 
     public static void main(String... args) {
-        JoltageStrategy strategy = new JoltageOfTwelve();
+        JoltageStrategy strategy1 = new JoltageOfTwo();
+        JoltageStrategy strategy2 = new JoltageOfTwelve();
         
         String[] banks = new BatteryReader("003.txt").banks;
-        long sum = new JoltageSum().getSum(banks, strategy);
+        
+        long sum1 = new JoltageSum().getSum(banks, strategy1);
         System.out.printf(
-                "The sum of joltages (using %s) is: %d", 
-                strategy.getClass().getSimpleName(),
-                sum
+                "The sum of joltages (using %s) is: %d%n", 
+                strategy1.getClass().getSimpleName(),
+                sum1
+                );
+        
+        long sum2 = new JoltageSum().getSum(banks, strategy2);
+        System.out.printf(
+                "The sum of joltages (using %s) is: %d%n", 
+                strategy2.getClass().getSimpleName(),
+                sum2
                 );
     }
     
