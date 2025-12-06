@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String... args) {
         RangeValidator validator;
-        validator = new RangeValidator(new HalvesValidator());
+        validator = new RangeValidator(new RepeatedValidator());
         
         String[] ranges = new IdParser("002.txt").idRanges;
         for (String range : ranges) {
@@ -19,7 +19,8 @@ public class Main {
             validator.validateRange(idRange);
         }
         System.out.printf(
-                "Sum of invalid ids: %d", 
+                "Sum of invalid ids (using %s): %d",
+                validator.strategy.getClass().getSimpleName(),
                 validator.sumInvalid()
                 );
     }
