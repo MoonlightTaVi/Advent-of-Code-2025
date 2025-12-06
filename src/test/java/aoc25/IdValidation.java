@@ -1,14 +1,9 @@
 package aoc25;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import aoc.p002.ids.HalvesValidator;
-import aoc.p002.ranges.IdParser;
-import aoc.p002.ranges.IdRange;
-import aoc.p002.ranges.RangeValidator;
+import aoc.p002.ids.*;
+import aoc.p002.ranges.*;
 
 
 /**
@@ -59,6 +54,38 @@ public class IdValidation {
         }
         long sum = validator.sumInvalid();
         long expected = 1227775554;
+        
+        Assertions.assertEquals(expected, sum);
+    }
+    
+    @Test
+    public void subpartIsRepeated() {
+        RepeatedValidator rptValidator = new RepeatedValidator();
+        String id = "121212";
+        String part = "12";
+        boolean result = rptValidator.isRepeated(id, part);
+        Assertions.assertTrue(result);
+    }
+    
+    @Test
+    public void repeatedValidation() {
+        validator.validator = new RepeatedValidator();
+        String[] ids = { "11", "121121", "12122" };
+        validator.validateAll(ids);
+        // First & second are invalid
+        Assertions.assertEquals(2, validator.invalidIds.size());
+    }
+    
+    @Test
+    public void repeatedValidationSum() {
+        validator.validator = new RepeatedValidator();
+        
+        for (String range : ranges) {
+            IdRange idRange = new IdRange(range);
+            validator.validateRange(idRange);
+        }
+        long sum = validator.sumInvalid();
+        long expected = 4174379265L;
         
         Assertions.assertEquals(expected, sum);
     }
