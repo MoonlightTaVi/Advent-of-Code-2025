@@ -7,8 +7,10 @@ import aoc.p003.util.*;
 public class Main {
 
     public static void main(String... args) {
+        JoltageStrategy strategy = new JoltageOfTwelve();
+        
         String[] banks = new BatteryReader("003.txt").banks;
-        long sum = new JoltageSum().getSum(banks, bank -> new JoltageOfTwelve(bank).getLargestJoltage());
+        long sum = new JoltageSum().getSum(banks, strategy);
         System.out.println(sum);
     }
     

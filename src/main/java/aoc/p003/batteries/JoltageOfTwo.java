@@ -2,17 +2,13 @@ package aoc.p003.batteries;
 
 import aoc.p003.util.BinaryMaximum;
 
-public class JoltageOfTwo implements BatteryBank {
-    public final String batteryBank;
-    
+
+public class JoltageOfTwo implements JoltageStrategy {
     BinaryMaximum max = new BinaryMaximum();
     
-    public JoltageOfTwo(String batteryBank) {
-        this.batteryBank = batteryBank;
-    }
 
     @Override
-    public long getLargestJoltage() {
+    public long getLargestJoltage(String batteryBank) {
         int leftLimit = batteryBank.length() - 1;
         
         String leftPart = batteryBank.substring(0, leftLimit);
