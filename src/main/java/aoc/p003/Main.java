@@ -18,6 +18,8 @@ import aoc.p003.util.*;
  * @see JoltageOfTwelve
  */
 public class Main {
+    static final long expected1 = 17376;
+    static final long expected2 = 172119830406258L;
 
     public static void main(String... args) {
         JoltageStrategy strategy1 = new JoltageOfTwo();
@@ -31,6 +33,7 @@ public class Main {
                 strategy1.getClass().getSimpleName(),
                 sum1
                 );
+        validate(expected1, sum1);
         
         long sum2 = new JoltageSum().getSum(banks, strategy2);
         System.out.printf(
@@ -38,6 +41,16 @@ public class Main {
                 strategy2.getClass().getSimpleName(),
                 sum2
                 );
+        validate(expected2, sum2);
+    }
+    
+    
+    public static void validate(long expected, long result) {
+        if (expected == result) {
+            System.out.println("[It is a valid answer]");
+        } else {
+            System.out.println("[The answer is INVALID]");
+        }
     }
     
 }
