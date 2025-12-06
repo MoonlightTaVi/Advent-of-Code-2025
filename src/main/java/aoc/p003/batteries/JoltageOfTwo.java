@@ -3,12 +3,16 @@ package aoc.p003.batteries;
 import aoc.p003.util.BinaryMaximum;
 
 
+/**
+ * The number of this joltage contains only 2 digits.
+ */
 public class JoltageOfTwo implements JoltageStrategy {
     BinaryMaximum max = new BinaryMaximum();
     
 
     @Override
     public long getLargestJoltage(String batteryBank) {
+        // At least 1 character must follow the first index
         int leftLimit = batteryBank.length() - 1;
         
         String leftPart = batteryBank.substring(0, leftLimit);

@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
+/**
+ * Supportive class that reads battery banks from a file.
+ */
 public class BatteryReader {
     public String[] banks;
 
@@ -13,6 +16,7 @@ public class BatteryReader {
         InputStreamReader is = new InputStreamReader(loader.getResourceAsStream(filename));
         try (BufferedReader reader = new BufferedReader(is)) {
             banks = reader.lines().toArray(String[]::new);
+            
         } catch (IOException e) {
             System.err.printf(
                     "IOException while reading %s: %s%n", 
