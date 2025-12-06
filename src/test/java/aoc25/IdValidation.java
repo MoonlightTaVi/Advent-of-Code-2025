@@ -69,7 +69,7 @@ public class IdValidation {
     
     @Test
     public void repeatedValidation() {
-        validator.validator = new RepeatedValidator();
+        validator.strategy = new RepeatedValidator();
         String[] ids = { "11", "121121", "12122" };
         validator.validateAll(ids);
         // First & second are invalid
@@ -78,7 +78,7 @@ public class IdValidation {
     
     @Test
     public void repeatedValidationSum() {
-        validator.validator = new RepeatedValidator();
+        validator.strategy = new RepeatedValidator();
         
         for (String range : ranges) {
             IdRange idRange = new IdRange(range);

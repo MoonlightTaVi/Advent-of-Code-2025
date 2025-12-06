@@ -12,7 +12,7 @@ import aoc.p002.ids.IdValidatorIF;
  */
 public class RangeValidator {
     /** ID validation strategy. */
-    public IdValidatorIF validator;
+    public IdValidatorIF strategy;
     /** 
      * All the invalid IDs are collected here 
      * after the {@code validate()} call.
@@ -23,10 +23,10 @@ public class RangeValidator {
     /**
      * Creates an instance of RangeValidator with specific validation
      * strategy.
-     * @param validator Validator for a single ID.
+     * @param strategy Validator for a single ID.
      */
     public RangeValidator(IdValidatorIF validator) {
-        this.validator = validator;
+        this.strategy = validator;
     }
 
 
@@ -59,7 +59,7 @@ public class RangeValidator {
      * @return true if the ID is valid.
      */
     public boolean validate(String id) {
-        boolean isValid = validator.validate(id);
+        boolean isValid = strategy.validate(id);
         if (!isValid) {
             invalidIds.add(id);
         }
