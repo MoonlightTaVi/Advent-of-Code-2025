@@ -14,6 +14,16 @@ The event was founded and is maintained by software engineer Eric Wastl.
 
 [Detailed description](https://adventofcode.com/2025/day/1)
 
-Started / Finished 2025/12/05, ~3.5 hours.
+Started / Finished `2025/12/05`, ~3.5 hours.
 
 Package `p001`, resourse file `001.txt`, JUnit tests at `SafeTest.java`.
+
+# Day 2: Gift Shop
+
+> Find the sum of all the invalid IDs using one of the validation strategies.
+
+[Detailed description](https://adventofcode.com/2025/day/2)
+
+Started / Finished `2025/12/06`, ~1 hour each part.
+
+Package `p002`, resourse file `002.txt`, JUnit tests at `IdValidation.java`.
