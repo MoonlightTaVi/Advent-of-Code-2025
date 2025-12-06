@@ -31,12 +31,24 @@ public class RangeValidator {
 
 
     /**
-     * Validates a range of IDs and collects the invalid ones to
-     * a List<String>.
+     * Validates a range of IDs (as IdRange) and collects 
+     * the invalid ones to a List<String>.
      * @param idRange Range of IDs.
      */
     public void validateRange(IdRange idRange) {
         for (String id : idRange) {
+            validate(id);
+        }
+    }
+
+
+    /**
+     * Validates a range of IDs (as String[]) and collects 
+     * the invalid ones to a List<String>.
+     * @param idRange Range of IDs.
+     */
+    public void validateAll(String... ids) {
+        for (String id : ids) {
             validate(id);
         }
     }
