@@ -2,6 +2,7 @@ package aoc.p002.ids;
 
 
 /**
+ * Day 2 part 1. <br>
  * This strategy assumes that an ID is invalid if it is made of
  * one number repeated twice (i.e. left and right parts are equal).
  */
