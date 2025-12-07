@@ -2,12 +2,12 @@ package aoc.p004;
 
 
 public class BasicForklift implements ForkliftIF {
-    final char[][] map;
-    final int width;
-    final int height;
+    char[][] map;
+    int width;
+    int height;
     
     
-    public BasicForklift(char[][] map) {
+    public void setMap(char[][] map) {
         this.map = map;
         width = map.length;
         height = map[0].length;

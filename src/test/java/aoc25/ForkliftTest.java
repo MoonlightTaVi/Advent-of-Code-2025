@@ -2,21 +2,32 @@ package aoc25;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import aoc.p004.*;
 
 
 public class ForkliftTest {
-    static char[][] map;
     static BasicForklift forklift;
-    
+    static ContinuousForklift contForklift;
     
     @BeforeAll
     public static void setup() {
-        map = new MapReader("004.txt").map;
-        forklift = new BasicForklift(map);
+        forklift = new BasicForklift();
+        contForklift = new ContinuousForklift();
     }
+    
+    
+    char[][] map;
+    
+    @BeforeEach
+    public void reset() {
+        map = new MapReader("004.txt").map;
+        forklift.setMap(map);
+        contForklift.setMap(map);
+    }
+    
     
     @Test
     public void isAccessible() {
@@ -34,6 +45,14 @@ public class ForkliftTest {
     public void testDataSuccess() {
         int expected = 13;
         int result = forklift.countAccessible();
+        
+        Assertions.assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testDataContinuousSuccess() {
+        int expected = 43;
+        int result = contForklift.countAccessible();
         
         Assertions.assertEquals(expected, result);
     }
