@@ -47,3 +47,17 @@ Started `2025/12/06` (evening) / Finished `2025/12/07` (night).
 Package `p003`, resourse file `003.txt`, JUnit tests at `BatteryTest.java`.
 
 Since the task assumes heavy calculations in order to find the highest joltage, binary search was used.
+
+# Day 4: Printing Department
+
+> Collect all accessible rolls of paper on the map and count them.
+
+[Detailed description](https://adventofcode.com/2025/day/4)
+
+Started / Finished `2025/12/07`, ~45 minutes each part.
+
+The task is pretty simple and does not require any optimization.
+
+Had to use class inheritance instead of interface implementations for the first time.
+
+Also added a master class for file reading because got tired of writing the same code over and over again.
