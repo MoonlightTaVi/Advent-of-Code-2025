@@ -38,6 +38,8 @@ public class FreshRange {
     public FreshRange merge(FreshRange anotherRange) {
         long min = Math.min(this.min, anotherRange.min);
         long max = Math.max(this.max, anotherRange.max);
+        this.min = min;
+        this.max = max;
         return new FreshRange(min, max);
     }
     

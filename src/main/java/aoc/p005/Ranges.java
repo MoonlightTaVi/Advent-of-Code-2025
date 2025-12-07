@@ -1,52 +1,52 @@
 package aoc.p005;
 
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 
 public class Ranges {
-    public TreeSet<FreshRange> ranges = new TreeSet<>(new RangeComparator());
+    public TreeMap<Long, FreshRange> ranges = new TreeMap<>();
     
     public void add(FreshRange range) {
-        ranges.add(range);
+        long key = range.min;
+        if (ranges.containsKey(key)) {
+            FreshRange prev = ranges.remove(key);
+            prev = prev.merge(range);
+            ranges.put(key, prev);
+        } else {
+            ranges.put(key, range);
+        }
     }
     
     public void pack() {
-        TreeSet<FreshRange> packedRanges = new TreeSet<>(new RangeComparator());
-        FreshRange[] rangesArr = ranges.toArray(FreshRange[]::new);
-        for (int i = 0; i < rangesArr.length; i++) {
-            FreshRange rangeX = rangesArr[i];
-            if (i == rangesArr.length - 1) {
-                packedRanges.add(rangeX);
-                break;
-            }
-            FreshRange rangeY = rangesArr[i + 1];
+        TreeMap<Long, FreshRange> packedRanges = new TreeMap<>();
+        Long[] keys = ranges.keySet().toArray(Long[]::new);
+        for (int i = 0; i < keys.length; i++) {
+            FreshRange rangeX = ranges.get(keys[i]);
             
-            if (rangeX.overlaps(rangeY)) {
-                rangeX = rangeX.merge(rangeY);
-                i++;
+            for (int j = i + 1; j < keys.length; j++) {
+                FreshRange rangeY = ranges.get(keys[j]);
+                if (rangeX.overlaps(rangeY)) {
+                    rangeX = rangeX.merge(rangeY);
+                } else {
+                    i = j - 1;
+                    break;
+                }
             }
             
-            packedRanges.add(rangeX);
+            packedRanges.put(rangeX.min, rangeX);
         }
         
         ranges = packedRanges;
     }
     
     public FreshRange getClosest(long toId) {
-        FreshRange temp = new FreshRange(toId, toId);
-        FreshRange result = ranges.floor(temp);
-        return result;
-    }
-    
-    class RangeComparator implements Comparator<FreshRange> {
-
-        @Override
-        public int compare(FreshRange o1, FreshRange o2) {
-            int byMin = Long.compare(o1.min, o2.min);
-            int byMax = Long.compare(o1.max, o2.max);
-            return byMin != 0 ? byMin : byMax;
+        FreshRange result = null;
+        Entry<Long, FreshRange> entry = ranges.floorEntry(toId);
+        if (entry != null) {
+            result = entry.getValue();
         }
-        
+        return result;
     }
     
 }
