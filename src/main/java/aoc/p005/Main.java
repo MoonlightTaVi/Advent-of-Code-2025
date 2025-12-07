@@ -8,8 +8,7 @@ public class Main {
         FreshCounter counter = new FreshCounter();
         Ingredients ingredients = new Ingredients("005.txt");
         ingredients.pack();
-        System.out.println(ingredients.ranges.ranges.size());
-        long count = counter.count(ingredients);
+        long count = counter.countAll(ingredients);
         System.out.printf("Number of fresh ingredients: %d%n", count);
     }
     

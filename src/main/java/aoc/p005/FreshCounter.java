@@ -14,5 +14,13 @@ public class FreshCounter {
         }
         return count;
     }
+
+    public long countAll(Ingredients ingredients) {
+        long count = 0;
+        for (FreshRange range : ingredients.ranges) {
+            count += range.length();
+        }
+        return count;
+    }
     
 }

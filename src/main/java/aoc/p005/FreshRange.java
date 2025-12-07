@@ -43,6 +43,10 @@ public class FreshRange {
         return new FreshRange(min, max);
     }
     
+    public long length() {
+        return max - min + 1;
+    }
+    
     @Override
     public boolean equals(Object o) {
         boolean result = false;
