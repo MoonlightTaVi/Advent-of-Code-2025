@@ -1,5 +1,6 @@
 package aoc.p003;
 
+import aoc.Validation;
 import aoc.p003.batteries.*;
 import aoc.p003.util.*;
 
@@ -33,7 +34,7 @@ public class Main {
                 strategy1.getClass().getSimpleName(),
                 sum1
                 );
-        validate(expected1, sum1);
+        Validation.validate(expected1, sum1);
         
         long sum2 = new JoltageSum().getSum(banks, strategy2);
         System.out.printf(
@@ -41,16 +42,7 @@ public class Main {
                 strategy2.getClass().getSimpleName(),
                 sum2
                 );
-        validate(expected2, sum2);
-    }
-    
-    
-    public static void validate(long expected, long result) {
-        if (expected == result) {
-            System.out.println("[It is a valid answer]");
-        } else {
-            System.out.println("[The answer is INVALID]");
-        }
+        Validation.validate(expected2, sum2);
     }
     
 }
