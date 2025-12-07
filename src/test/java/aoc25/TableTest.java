@@ -9,6 +9,9 @@ import aoc.p006.tables.PlainTable;
 import aoc.p006.tables.TrickyTable;
 
 
+/**
+ * Day 6 JUnit tests.
+ */
 public class TableTest {
     
     static PlainTable table;

@@ -3,6 +3,10 @@ package aoc.p006.tables;
 import java.util.stream.Stream;
 
 
+/**
+ * A simple table.
+ * @see Table
+ */
 public class PlainTable extends Table {
     public int rows;
     public int columns;

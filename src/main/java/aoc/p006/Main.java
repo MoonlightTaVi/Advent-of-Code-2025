@@ -2,6 +2,10 @@ package aoc.p006;
 
 import aoc.p006.tables.*;
 
+
+/**
+ * https://adventofcode.com/2025/day/6 <br> <br>
+ */
 public class Main {
     
     //11052310600986
