@@ -56,8 +56,24 @@ Since the task assumes heavy calculations in order to find the highest joltage, 
 
 Started / Finished `2025/12/07`, ~45 minutes each part.
 
+Package `p004`, resourse file `004.txt`, JUnit tests at `ForkliftTest.java`.
+
 The task is pretty simple and does not require any optimization.
 
 Had to use class inheritance instead of interface implementations for the first time.
 
 Also added a master class for file reading because got tired of writing the same code over and over again.
+
+# Day 5: Cafeteria
+
+> Find the number of fresh ingridients given the ID ranges of freshness.
+
+[Detailed description](https://adventofcode.com/2025/day/5)
+
+Started / Finished `2025/12/07`, ~way-too-many-hours for the both parts.
+
+Package `p005`, resourse file `005.txt`, JUnit tests at `IngredientsTest.java`.
+
+My vision was blurry, so I spent too much time not seeing an obvious bug.
+
+TreeMap with keys representing the beginning of each range were used for simple binary search and sorting of ranges.
