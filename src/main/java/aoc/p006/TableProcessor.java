@@ -2,13 +2,16 @@ package aoc.p006;
 
 import java.util.function.BiFunction;
 
+import aoc.p006.tables.Table;
+
+
 public class TableProcessor {
     BiFunction<Long, Long, Long> mult = (x, y) -> x * y;
     BiFunction<Long, Long, Long> sum = (x, y) -> x + y;
 
-    public long process(TableReader table) {
+    public long process(Table table) {
         long total = 0;
-        for (int i = 0; i < table.columns; i++) {
+        for (int i = 0; i < table.getColumns(); i++) {
             String[] column = table.getColumn(i);
             total += processColumn(column);
         }
