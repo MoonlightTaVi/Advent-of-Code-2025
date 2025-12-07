@@ -1,10 +1,11 @@
 package aoc.p005;
 
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 
-public class Ranges {
+public class Ranges implements Iterable<FreshRange> {
     public TreeMap<Long, FreshRange> ranges = new TreeMap<>();
     
     public void add(FreshRange range) {
@@ -28,8 +29,8 @@ public class Ranges {
                 FreshRange rangeY = ranges.get(keys[j]);
                 if (rangeX.overlaps(rangeY)) {
                     rangeX = rangeX.merge(rangeY);
+                    i = j;
                 } else {
-                    i = j - 1;
                     break;
                 }
             }
@@ -47,6 +48,15 @@ public class Ranges {
             result = entry.getValue();
         }
         return result;
+    }
+
+    @Override
+    public Iterator<FreshRange> iterator() {
+        return ranges.entrySet().
+                stream()
+                .map(e -> e.getValue())
+                .toList()
+                .iterator();
     }
     
 }
