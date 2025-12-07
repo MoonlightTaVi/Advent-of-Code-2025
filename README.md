@@ -77,3 +77,14 @@ Package `p005`, resourse file `005.txt`, JUnit tests at `IngredientsTest.java`.
 My vision was blurry, so I spent too much time not seeing an obvious bug.
 
 TreeMap with keys representing the beginning of each range were used for simple binary search and sorting of ranges.
+
+# Day 6: Trash Compactor
+
+> Apply some math to the columns of a table.
+
+[Detailed description](https://adventofcode.com/2025/day/6)
+
+Started `2025/12/07`. Part 1 finished `2025/12/07`, part 2 finished `2025/12/08` (by midnight).
+
+Package `p006`, resourse file `006.txt`, JUnit tests at `TableTest.java`....
+
