@@ -6,8 +6,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import aoc.p004.*;
+import aoc.p004.forklifts.BasicForklift;
+import aoc.p004.forklifts.ContinuousForklift;
 
 
+/**
+ * JUnit test for day 4.
+ */
 public class ForkliftTest {
     static BasicForklift forklift;
     static ContinuousForklift contForklift;
@@ -31,6 +36,7 @@ public class ForkliftTest {
     
     @Test
     public void isAccessible() {
+        // x and y are reversed
         boolean isAccessible = forklift.canAccess(0, 2);
         Assertions.assertTrue(isAccessible);
     }

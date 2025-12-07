@@ -1,12 +1,16 @@
-package aoc.p004;
+package aoc.p004.forklifts;
 
 
+/**
+ * Counts the accessible rolls of paper, but doesn't pick them.
+ */
 public class BasicForklift implements ForkliftIF {
     char[][] map;
     int width;
     int height;
     
     
+    @Override
     public void setMap(char[][] map) {
         this.map = map;
         width = map.length;

@@ -1,8 +1,16 @@
-package aoc.p004;
+package aoc.p004.forklifts;
 
 
+/**
+ * Keeps counting accessible rolls of paper and picking them up,
+ * therefore freeing up the space on the map and making more rolls
+ * accessible with each iteration.
+ */
 public class ContinuousForklift extends BasicForklift {
     
+    /**
+     * Keeps counting until no more rolls accessible.
+     */
     @Override
     public int countAccessible() {
         int allCount = 0;
@@ -14,6 +22,9 @@ public class ContinuousForklift extends BasicForklift {
         return allCount;
     }
     
+    /**
+     * Picks up a roll if it is accessible.
+     */
     @Override
     public boolean canAccess(int x, int y) {
         boolean result = super.canAccess(x, y);

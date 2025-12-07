@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
+/**
+ * Reads a map from a file.
+ * @see #map
+ */
 public class MapReader {
     public char[][] map;
     
