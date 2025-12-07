@@ -1,8 +1,6 @@
 package aoc.p001;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import aoc.FileReader;
 
 
 /**
@@ -12,7 +10,7 @@ import java.io.InputStreamReader;
  * of steps. Saves the rotations to the array.
  * @see #rotations
  */
-public class PuzzleInput {
+public class PuzzleInput extends FileReader {
     public String[] rotations;
 
     /**
@@ -21,21 +19,7 @@ public class PuzzleInput {
      * @see PuzzleInput
      */
     public PuzzleInput(String file) {
-        ClassLoader loader = PuzzleInput.class.getClassLoader();
-        InputStreamReader is = new InputStreamReader(
-                loader.getResourceAsStream(file)
-                );
-        
-        try (BufferedReader reader = new BufferedReader(is)) {
-            rotations = reader.lines().toArray(String[]::new);
-            
-        } catch (IOException e) {
-            System.err.printf(
-                    "IOException while reading puzzle input: %s%n", 
-                    e.getLocalizedMessage()
-                    );
-            e.printStackTrace();
-        }
+        rotations = super.read(file).lines;
     }
     
 }

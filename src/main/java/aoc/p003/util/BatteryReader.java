@@ -1,30 +1,16 @@
 package aoc.p003.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import aoc.FileReader;
 
 
 /**
  * Supportive class that reads battery banks from a file.
  */
-public class BatteryReader {
+public class BatteryReader extends FileReader {
     public String[] banks;
 
     public BatteryReader(String filename) {
-        ClassLoader loader = BatteryReader.class.getClassLoader();
-        InputStreamReader is = new InputStreamReader(loader.getResourceAsStream(filename));
-        try (BufferedReader reader = new BufferedReader(is)) {
-            banks = reader.lines().toArray(String[]::new);
-            
-        } catch (IOException e) {
-            System.err.printf(
-                    "IOException while reading %s: %s%n", 
-                    filename, 
-                    e.getLocalizedMessage()
-                    );
-            e.printStackTrace();
-        }
+        banks = super.read(filename).lines;
     }
     
 }

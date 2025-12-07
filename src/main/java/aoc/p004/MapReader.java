@@ -1,34 +1,23 @@
 package aoc.p004;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import aoc.FileReader;
 
 
 /**
  * Reads a map from a file.
  * @see #map
  */
-public class MapReader {
+public class MapReader extends FileReader {
     public char[][] map;
     
+    /**
+     * Reads  the map from a file.
+     */
     public MapReader(String filename) {
-        ClassLoader loader = MapReader.class.getClassLoader();
-        InputStreamReader is = new InputStreamReader(
-                loader.getResourceAsStream(filename)
-                );
-        try (BufferedReader reader = new BufferedReader(is)) {
-            map = reader.lines()
-                    .map(line -> line.toCharArray())
-                    .toArray(char[][]::new);
-            
-        } catch (IOException e) {
-            System.err.printf(
-                    "IOException while reading %s: %s%n", 
-                    filename, 
-                    e.getLocalizedMessage()
-                    );
-            e.printStackTrace();
-        }
+        map = super.read(filename)
+                .stream()
+                .map(line -> line.toCharArray())
+                .toArray(char[][]::new);
     }
+    
 }
