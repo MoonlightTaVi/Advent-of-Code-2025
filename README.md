@@ -88,3 +88,16 @@ Started `2025/12/07`. Part 1 finished `2025/12/07`, part 2 finished `2025/12/08`
 
 Package `p006`, resourse file `006.txt`, JUnit tests at `TableTest.java`....
 
+# Day 7: Laboratories
+
+> Simulate the behaviour of an emitted beam that can split itself.
+
+[Detailed description](https://adventofcode.com/2025/day/7)
+
+Started / Finished `2025/12/08`, half of the day for the both parts.
+
+Package `p007`, resourse file `007.txt`, JUnit tests at `BeamsTest.java`.
+
+It was the most interesting task by now; my PC was going to explode from either Heap Memory exhaustion or CPU overheating.
+But suddenly I decided to visit [reddit](https://www.reddit.com/r/adventofcode/comments/1pgxv5w/year_2025_day_7_no_memoization_still_runs_in_10_%C2%B5s/) and realized
+that the solution is very simple and poetic, indeed.
