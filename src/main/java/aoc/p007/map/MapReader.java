@@ -1,7 +1,11 @@
-package aoc.p007;
+package aoc.p007.map;
 
 import aoc.FileReader;
 
+
+/**
+ * Reads map from a file.
+ */
 public class MapReader extends FileReader {
     public final char[][] map;
 

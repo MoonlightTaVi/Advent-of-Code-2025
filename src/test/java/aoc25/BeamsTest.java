@@ -5,7 +5,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import aoc.p007.*;
+import aoc.p007.map.*;
 
+
+/**
+ * JUnit tests for day 7.
+ */
 public class BeamsTest {
     static Map map;
     static Engine engine;
@@ -15,6 +20,7 @@ public class BeamsTest {
         map = new Map(new MapReader("007.txt").map);
         engine = new Engine(map);
     }
+    
     
     @Test
     public void hashingSuccess() {

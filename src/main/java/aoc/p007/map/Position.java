@@ -1,14 +1,20 @@
-package aoc.p007;
+package aoc.p007.map;
 
 
+/**
+ * 2D position on a grid. The hash code of this object
+ * depends on the current coordinates and may change.
+ */
 public class Position {
     public int x;
     public int y;
+    
     
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
+    
     
     @Override
     public boolean equals(Object o) {
