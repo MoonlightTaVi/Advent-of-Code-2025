@@ -1,7 +1,15 @@
 package aoc25;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import aoc.p007.*;
@@ -13,11 +21,17 @@ import aoc.p007.map.*;
  */
 public class BeamsTest {
     static Map map;
-    static Engine engine;
     
     @BeforeAll
     public static void setup() {
         map = new Map(new MapReader("007.txt").map);
+    }
+    
+    
+    Engine engine;
+    
+    @BeforeEach
+    public void reset() {
         engine = new Engine(map);
     }
     
@@ -64,12 +78,29 @@ public class BeamsTest {
     
     @Test
     public void testDataSuccess() {
-        engine.start();
-        while (engine.isRunning()) {
-            engine.run();
+        Set<Beam> beams = new HashSet<>();
+        Collection<Beam> spawnStorage = new HashSet<>();
+        engine.start(beams);
+        while (!beams.isEmpty()) {
+            beams = engine.run(beams, spawnStorage, Collectors.toSet());
+            spawnStorage.clear();
         }
         long result = engine.getSplits();
         long expected = 21;
+        Assertions.assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testMultiverseDataSuccess() {
+        List<Beam> beams = new ArrayList<>();
+        Collection<Beam> spawnStorage = new ArrayList<>();
+        engine.start(beams);
+        while (!beams.isEmpty()) {
+            beams = engine.run(beams, spawnStorage, Collectors.toList());
+            spawnStorage.clear();
+        }
+        long result = engine.getTotalKills();
+        long expected = 40;
         Assertions.assertEquals(expected, result);
     }
 

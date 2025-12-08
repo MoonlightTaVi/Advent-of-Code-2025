@@ -1,5 +1,10 @@
 package aoc.p007;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import aoc.p007.map.*;
 
 
@@ -12,9 +17,14 @@ public class Main {
         Map map = new Map(new MapReader("007.txt").map);
         Engine engine = new Engine(map);
         
-        engine.start();
-        while (engine.isRunning()) {
-            engine.run();
+        Set<Beam> beams = new HashSet<>();
+        Collection<Beam> spawnStorage = new HashSet<>();
+        
+        engine.start(beams);
+        
+        while (!beams.isEmpty()) {
+            beams = engine.run(beams, spawnStorage, Collectors.toSet());
+            spawnStorage.clear();
         }
         
         System.out.printf(

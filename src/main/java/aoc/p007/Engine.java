@@ -1,8 +1,7 @@
 package aoc.p007;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.stream.Collector;
 
 import aoc.p007.map.Map;
 import aoc.p007.map.Position;
@@ -19,11 +18,6 @@ public class Engine {
     private long totalSplits = 0;
     /** @see #getKills() */
     private long totalKills = 0;
-
-    /** All currently existent beams. */
-    private Set<Beam> beams = new HashSet<>();
-    /** Temporary hub for newly spawned beams. */
-    private final Set<Beam> beamSpawner = new HashSet<>();
     
     
     /**
@@ -37,12 +31,7 @@ public class Engine {
     }
     
     
-    /**
-     * Spawns beams at their initial positions on the map.
-     * @see #isRunning()
-     * @see #run()
-     */
-    public void start() {
+    public void start(Collection<Beam> beams) {
         for (Position position : map) {
             if (map.isEmitter(position)) {
                 Beam beam = new Beam(position);
@@ -51,26 +40,18 @@ public class Engine {
         }
     }
     
-    /**
-     * Check if the engine is running.
-     * @return true if at least one beam is existent inside the engine.
-     */
-    public boolean isRunning() {
-        return !beams.isEmpty();
-    }
-    
-    /**
-     * Performs movement and splitting logic upon all existent beams.
-     */
-    public void run() {
+    public <T extends Collection<Beam>> T run(T beams, Collection<Beam> spawnStorage, Collector<Beam, ?, T> collector) {
         // The hash codes of the Beams change after movement,
         //  so a new HashSet is created
         beams = beams.stream()
                 .peek(Beam::moveDown)
                 .filter(this::checkOutOfBounds)
-                .filter(this::checkSplit)
-                .collect(Collectors.toSet());
-        update();
+                .filter(beam -> checkSplit(beam, spawnStorage))
+                .collect(collector);
+        
+        beams.addAll(spawnStorage);
+        
+        return beams;
     }
     
     /**
@@ -105,34 +86,19 @@ public class Engine {
         if (map.isInBoundaries(beam.position)) {
             return true;
         }
+        totalKills++;
         return false;
     }
     
-    /**
-     * Checks if a beam should not be split (and removed). <br>
-     * Is used for filtering purposes.
-     * @param beam A beam to test.
-     * @return true if there's no splitter at the map grid position
-     * of the beam, false if the beam must be split and removed.
-     */
-    private boolean checkSplit(Beam beam) {
+    private boolean checkSplit(Beam beam, Collection<Beam> spawnStorage) {
         if (!map.isSplitter(beam.position)) {
             return true;
         }
         totalSplits++;
         
-        beamSpawner.add(beam.split());
+        spawnStorage.add(beam.split());
         
         return true;
-    }
-    
-    /**
-     * Spawns newly instantiated beams after splitting.
-     * @see #beamSpawner
-     */
-    private void update() {
-        beams.addAll(beamSpawner);
-        beamSpawner.clear();
     }
     
 }
