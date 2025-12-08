@@ -17,7 +17,9 @@ public class Engine {
     
     /** @see #getSplits() */
     private long totalSplits = 0;
-    
+    /** @see #getKills() */
+    private long totalKills = 0;
+
     /** All currently existent beams. */
     private Set<Beam> beams = new HashSet<>();
     /** Temporary hub for newly spawned beams. */
@@ -82,6 +84,17 @@ public class Engine {
     }
     
     /**
+     * Returns current total number of beam that moved outside the map. 
+     * <br>
+     * The number is incremented (by 1) when a beam hits the boundary
+     * of the map.
+     * @return Total number of splits that happened.
+     */
+    public long getTotalKills() {
+        return totalKills;
+    }
+    
+    /**
      * Checks if a beam is within the map. <br>
      * Is used for filtering purposes.
      * @param beam A beam to test.
@@ -107,11 +120,10 @@ public class Engine {
             return true;
         }
         totalSplits++;
-        for (Beam split : beam.split()) {
-            beamSpawner.add(split);
-        }
         
-        return false;
+        beamSpawner.add(beam.split());
+        
+        return true;
     }
     
     /**

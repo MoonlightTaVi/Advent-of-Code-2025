@@ -38,16 +38,14 @@ public class Beam {
     }
 
     /**
-     * Splits itself into two sub-parts, to the left and to the right
-     * of itself.
-     * @return The result of a split as a Beam[2] array 
-     * with two sub-parts.
+     * Splits itself into two parts. 
+     * Creates a copy of self to the left and shifts itself to the right.
+     * @return A copy of self, shifted left.
      */
-    public Beam[] split() {
-        Beam[] pair = new Beam[2];
-        pair[0] = new Beam(position.x - 1, position.y);
-        pair[1] = new Beam(position.x + 1, position.y);
-        return pair;
+    public Beam split() {
+        Beam split = new Beam(position.x - 1, position.y);
+        position.x += 1;
+        return split;
     }
     
     
