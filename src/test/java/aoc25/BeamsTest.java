@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import aoc.p007.*;
 
 
+/**
+ * JUnit test for day 7.
+ */
 public class BeamsTest {
     static Map map;
     static Beams beams;
@@ -19,14 +22,14 @@ public class BeamsTest {
     
     @Test
     public void halfIsValid() {
-        int center = beams.getCenter(map.width);
+        int center = beams.getStart(map);
         char start = map.array[0][center];
         Assertions.assertEquals('S', start);
     }
     
     @Test
     public void testDataIsValid() {
-        beams.traverse(map.array);
+        beams.traverse(map);
         long splits = beams.getTotalSplits();
         long beamCount = beams.getTotalBeams();
         

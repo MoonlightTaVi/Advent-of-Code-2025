@@ -3,6 +3,9 @@ package aoc.p007;
 import aoc.FileReader;
 
 
+/**
+ * Reads a 2D grid map from a file and stores the information about it.
+ */
 public class Map extends FileReader {
     public final char[][] array;
     public final int height;
