@@ -1,4 +1,4 @@
-package aoc.p007;
+package aoc.p007.beams;
 
 import aoc.p007.map.Position;
 

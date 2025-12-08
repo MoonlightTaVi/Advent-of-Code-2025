@@ -1,8 +1,9 @@
 package aoc.p007;
 
 import java.util.Collection;
-import java.util.stream.Collector;
 
+import aoc.p007.beams.Beam;
+import aoc.p007.beams.Beams;
 import aoc.p007.map.Map;
 import aoc.p007.map.Position;
 
@@ -31,27 +32,24 @@ public class Engine {
     }
     
     
-    public void start(Collection<Beam> beams) {
+    public <T extends Collection<Beam>> void start(Beams<T> beams) {
+        T beamStorage = beams.getBeams();
         for (Position position : map) {
             if (map.isEmitter(position)) {
                 Beam beam = new Beam(position);
-                beams.add(beam);
+                beamStorage.add(beam);
             }
         }
     }
     
-    public <T extends Collection<Beam>> T run(T beams, Collection<Beam> spawnStorage, Collector<Beam, ?, T> collector) {
-        // The hash codes of the Beams change after movement,
-        //  so a new HashSet is created
-        beams = beams.stream()
+    public <T extends Collection<Beam>> void process(Beams<T> beams) {
+        T updatedBeams = beams
+                .stream()
                 .peek(Beam::moveDown)
                 .filter(this::checkOutOfBounds)
-                .filter(beam -> checkSplit(beam, spawnStorage))
-                .collect(collector);
-        
-        beams.addAll(spawnStorage);
-        
-        return beams;
+                .filter(beam -> checkSplit(beam, beams.getSpawnStorage()))
+                .collect(beams.getCollector());
+        beams.update(updatedBeams);
     }
     
     /**
