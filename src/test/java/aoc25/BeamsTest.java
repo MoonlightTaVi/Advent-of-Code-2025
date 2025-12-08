@@ -2,99 +2,36 @@ package aoc25;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import aoc.p007.*;
-import aoc.p007.beams.AtomicBeams;
-import aoc.p007.beams.Beam;
-import aoc.p007.map.*;
 
 
-/**
- * JUnit tests for day 7.
- */
 public class BeamsTest {
     static Map map;
+    static Beams beams;
     
     @BeforeAll
     public static void setup() {
-        map = new Map(new MapReader("007.txt").map);
+        map = new Map("007.txt");
+        beams = new Beams();
     }
-    
-    
-    Engine engine;
-    
-    @BeforeEach
-    public void reset() {
-        engine = new Engine(map);
-    }
-    
     
     @Test
-    public void hashingSuccess() {
-        Position p1 = new Position(0, 0);
-        Position p2 = new Position(0, 0);
-        Position p3 = new Position(0, 1);
+    public void halfIsValid() {
+        int center = beams.getCenter(map.width);
+        char start = map.array[0][center];
+        Assertions.assertEquals('S', start);
+    }
+    
+    @Test
+    public void testDataIsValid() {
+        beams.traverse(map.array);
+        long splits = beams.getTotalSplits();
+        long beamCount = beams.getTotalBeams();
         
-        Assertions.assertEquals(p1, p2);
-        Assertions.assertTrue(p1.hashCode() == p2.hashCode());
-        Assertions.assertTrue(p1.hashCode() != p3.hashCode());
+        Assertions.assertEquals(21, splits);
+        Assertions.assertEquals(40, beamCount);
     }
     
-    @Test
-    public void equalsSuccess() {
-        Beam b1 = new Beam(3, 3);
-        
-        Beam b2 = new Beam(3, 2);
-        b2.position.y = 3;
-        
-        Beam b3 = new Beam(3, 3);
-        
-        Assertions.assertEquals(b1, b2);
-        Assertions.assertTrue(b1.hashCode() == b2.hashCode());
-        Assertions.assertTrue(b1.hashCode() == b3.hashCode());
-    }
-    
-    @Test
-    public void mapIsProper() {
-        Position emitter = new Position(7, 0);
-        boolean isEmitter = map.isEmitter(emitter);
-        Assertions.assertTrue(isEmitter);
-    }
-    
-    @Test
-    public void beamSplits() {
-        Position position = new Position(7, 2);
-        Beam beam = new Beam(position);
-        boolean canSplit = map.isSplitter(beam.position);
-        Assertions.assertTrue(canSplit);
-    }
-    
-    @Test
-    public void testDataSuccess() {
-        AtomicBeams beams = new AtomicBeams();
-        engine.start(beams);
-        while (!beams.isEmpty()) {
-            engine.process(beams);
-            beams.spawn();
-        }
-        long result = engine.getSplits();
-        long expected = 21;
-        Assertions.assertEquals(expected, result);
-    }
-    
-    @Test
-    public void testMultiverseDataSuccess() {
-        AtomicBeams beams = new AtomicBeams();
-        engine.start(beams);
-        while (!beams.isEmpty()) {
-            engine.process(beams);
-            beams.spawn();
-        }
-        long result = engine.getTotalKills();
-        long expected = 40;
-        Assertions.assertEquals(expected, result);
-    }
-
 }
