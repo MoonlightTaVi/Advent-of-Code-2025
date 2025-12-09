@@ -45,20 +45,21 @@ public class Boxes extends FileReader {
     }
     
     public void connect(int limit) {
+        int circuitId = 1;
         for (int i = 0; i < limit; i++) {
             Box box = boxes[i];
-            box.propagateId(i);
-            /*if (box.closest == null || box.id == null || box.closest.id == null) {
-                continue;
+            
+            // Resulted ID may be different
+            int resultedId = box.propagateId(circuitId);
+            
+            // If the current ID propagated successfully
+            //  - generate new ID
+            if (circuitId == resultedId) {
+                circuitId++;
             }
-            int id = Math.min(box.id, box.closest.id);
-            if (box.closest.closest != null && box.closest.closest.id != null) {
-                id = Math.min(id, box.closest.closest.id);
-                box.closest.closest.id = id;
-            }
-            box.id = id;
-            box.closest.id = id;*/
+            
         }
+        
     }
     
     public void print() {
