@@ -6,7 +6,7 @@ import java.util.Map;
 
 import aoc.FileReader;
 import aoc.p008.nodes.*;
-import aoc.p008.sorting.CircuitComparator;
+import aoc.p008.sorting.*;
 
 
 public class NodeProcessor extends FileReader {
@@ -68,7 +68,7 @@ public class NodeProcessor extends FileReader {
     
     
     public void print() {
-        boxes.sort(new CircuitComparator());
+        boxes.sort(new IdComparator());
         
         for (Node box : boxes) {
             System.out.printf(

@@ -10,6 +10,8 @@ public class Main {
         processor.findClosest(1000);
         processor.generateCircuits();
         
+        processor.print();
+        
         long product = processor.calculateProduct(3);
         
         Validation.print(
