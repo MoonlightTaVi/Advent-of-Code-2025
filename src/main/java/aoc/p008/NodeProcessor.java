@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import aoc.FileReader;
+import aoc.p008.sorting.*;
 
 
 public class NodeProcessor extends FileReader {
@@ -45,7 +46,7 @@ public class NodeProcessor extends FileReader {
         }
         
         // Sort by closest distance priority
-        Arrays.sort(boxes, (x, y) -> Double.compare(x.getDist(), y.getDist()));
+        Arrays.sort(boxes, new DistanceComparator());
         
         // Prepare
         for (int i = 0; i < boxes.length; i++) {

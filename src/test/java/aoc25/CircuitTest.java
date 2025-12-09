@@ -7,27 +7,30 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import aoc.p008.*;
+import aoc.p008.sorting.CircuitComparator;
 
 
 public class CircuitTest {
-    static final double threshold = 0.0001;
-    
-    public static boolean almostEqual(double x, double y) {
-        return Math.abs(x - y) <= threshold;
-    }
-    
     static NodeProcessor boxes;
+    
+    static final double threshold = 0.0001;
+
     
     @BeforeAll
     public static void setup() {
         boxes = new NodeProcessor();
         boxes.findClosest(10);
     }
+    
+    public static boolean almostEqual(double x, double y) {
+        return Math.abs(x - y) <= threshold;
+    }
 
+    
     @Test
     public void someTest() {
         boxes.connect();
-        Arrays.sort(boxes.boxes, (x, y) -> Integer.compare(x.circuitId, y.circuitId));
+        Arrays.sort(boxes.boxes, new CircuitComparator());
         boxes.print();
         long sum = boxes.summarize(3);
         Assertions.assertEquals(40, sum);
