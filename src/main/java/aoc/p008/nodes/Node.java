@@ -30,6 +30,7 @@ public class Node {
     public final Vector<Integer> vector;
     
     public Node closest = null;
+    Integer lastClosest = null;
     @Getter
     private double dist = 0;
     
@@ -53,6 +54,15 @@ public class Node {
     public void connect(Node toAnother) {
         dist = dst(toAnother);
         closest = toAnother;
+        if (dist < toAnother.dist) {
+            toAnother.connect(this);
+        }
+    }
+    
+    public void disconnect() {
+        //dist = 0;
+        lastClosest = closest.id;
+        closest = null;
     }
     
     public boolean isConnected(Node toAnother) {
@@ -75,7 +85,13 @@ public class Node {
             circuitId = Math.min(this.circuitId, circuitId);
         }
         
-        closest = nullIfCircular(passedNodes);
+        if (isCircular(passedNodes)) {
+            if (dist < closest.dist) {
+                closest.disconnect();
+            } else {
+                this.disconnect();
+            }
+        }
         
         if (closest != null) {
             circuitId = Math.min(
@@ -89,11 +105,11 @@ public class Node {
     }
     
     
-    private Node nullIfCircular(Set<Node> passedNodes) {
-        if (closest == null || passedNodes.contains(closest)) {
-            return null;
+    private boolean isCircular(Set<Node> passedNodes) {
+        if (passedNodes.contains(closest)) {
+            return true;
         }
-        return closest;
+        return false;
     }
     
     
@@ -112,13 +128,24 @@ public class Node {
         return vector.hashCode();
     }
     
-    @Override
-    public String toString() {
+    String str() {
         return String.format(
                 "[%s] %d#[%s]", 
                 String.valueOf(circuitId), 
                 id, 
                 vector
+                );
+    }
+    
+    @Override
+    public String toString() {
+        return String.format(
+                "[%s] %d#[%s] -(%.2f)-> %s", 
+                String.valueOf(circuitId), 
+                id, 
+                vector,
+                dist,
+                closest == null ? String.format("[%d]", lastClosest) : closest.str()
                 );
     }
 }
