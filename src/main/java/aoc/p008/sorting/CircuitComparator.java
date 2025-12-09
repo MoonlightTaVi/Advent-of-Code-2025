@@ -2,7 +2,7 @@ package aoc.p008.sorting;
 
 import java.util.Comparator;
 
-import aoc.p008.Node;
+import aoc.p008.nodes.Node;
 
 
 public class CircuitComparator implements Comparator<Node> {

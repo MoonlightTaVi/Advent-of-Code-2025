@@ -1,4 +1,4 @@
-package aoc.p008;
+package aoc.p008.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,10 @@ public class Circuit {
     
     List<Node> boxes = new ArrayList<>();
     
+    
+    public void add(Node box) {
+        boxes.add(box);
+    }
     
     public int size() {
         return boxes.size();

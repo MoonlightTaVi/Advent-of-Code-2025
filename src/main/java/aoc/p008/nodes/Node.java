@@ -1,4 +1,4 @@
-package aoc.p008;
+package aoc.p008.nodes;
 
 import java.util.Arrays;
 
