@@ -22,21 +22,18 @@ public class Boxes extends FileReader {
     
     public void findClosest(int limit) {
         for (Box box : boxes) {
-            box.closest = Arrays.stream(boxes)
+            box.connect(Arrays.stream(boxes)
                     .filter(b -> !box.equals(b))
                     .filter(b -> b.closest == null || !b.closest.equals(box))
                     .sorted(
                             (b1, b2) -> Double.compare(
-                                    box.dst2(b1), box.dst2(b2)
+                                    box.dst(b1), box.dst(b2)
                                 )
                             )
                     .findFirst()
-                    .orElse(null);
-            if (box.closest != null) {
-                box.dist = box.dst(box.closest);
-            }
+                    .orElse(null));
         }
-        Arrays.sort(boxes, (x, y) -> Double.compare(x.dist, y.dist));
+        Arrays.sort(boxes, (x, y) -> Double.compare(x.getDist(), y.getDist()));
         for (int i = 0; i < boxes.length; i++) {
             Box box = boxes[i];
             box.id = i;
@@ -50,7 +47,8 @@ public class Boxes extends FileReader {
     public void connect(int limit) {
         for (int i = 0; i < limit; i++) {
             Box box = boxes[i];
-            if (box.closest == null || box.id == null || box.closest.id == null) {
+            box.propagateId(i);
+            /*if (box.closest == null || box.id == null || box.closest.id == null) {
                 continue;
             }
             int id = Math.min(box.id, box.closest.id);
@@ -59,23 +57,26 @@ public class Boxes extends FileReader {
                 box.closest.closest.id = id;
             }
             box.id = id;
-            box.closest.id = id;
+            box.closest.id = id;*/
         }
     }
     
-    public void print(int limit) {
-        for (int i = 0; i < limit; i++) {
-            Box box = boxes[i];
-            System.out.printf("%s -> %s (%.2f)%n", box, box.closest, box.dist);
+    public void print() {
+        for (Box box : boxes) {
+            System.out.printf(
+                    "%s -> %s (%.2f)%n", 
+                    box, box.closest, 
+                    box.getDist()
+                    );
         }
     }
     
     public long summarize(int limit) {
         Map<Integer, Long> count = Arrays.stream(boxes)
-                .filter(b -> b.id != null)
+                .filter(b -> b.circuitId != null)
                 .collect(
                         Collectors.groupingBy(
-                                b -> b.id, 
+                                b -> b.circuitId, 
                                 Collectors.counting()
                                 )
                         );

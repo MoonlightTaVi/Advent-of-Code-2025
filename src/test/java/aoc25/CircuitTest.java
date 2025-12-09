@@ -27,10 +27,10 @@ public class CircuitTest {
 
     @Test
     public void someTest() {
-        boxes.print(20);
+        boxes.print();
         boxes.connect(20);
-        Arrays.sort(boxes.boxes, (x, y) -> Integer.compare(x.id, y.id));
-        boxes.print(20);
+        Arrays.sort(boxes.boxes, (x, y) -> Integer.compare(x.circuitId, y.circuitId));
+        boxes.print();
         long sum = boxes.summarize(3);
         Assertions.assertEquals(40, sum);
     }

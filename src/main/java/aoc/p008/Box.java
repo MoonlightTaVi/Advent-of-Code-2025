@@ -2,72 +2,110 @@ package aoc.p008;
 
 import java.util.Arrays;
 
+import aoc.shared.Vector;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+
+@RequiredArgsConstructor
 public class Box {
-    static int count = 0;
     
-    int x;
-    int y;
-    int z;
-    
-    public Integer id;
-    
-    public Box closest = null;
-    public double dist = 0;
-    
-    public Box(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        id = count++;
-    }
-    
-    public Box(String line) {
+    public static Vector<Integer> getVector(String line) {
         int[] position = Arrays.stream(line.split(","))
                 .mapToInt(Integer::valueOf)
                 .toArray();
+        Vector<Integer> vector = new Vector<>();
         int i = 0;
-        this.x = position[i++];
-        this.y = position[i++];
-        this.z = position[i++];
-        id = count++;
+        vector.x = position[i++];
+        vector.y = position[i++];
+        vector.z = position[i++];
+        return vector;
     }
     
-    public int[] vector() {
-        return new int[] {x, y, z};
+    
+    public int id;
+    public Integer circuitId;
+    public final Vector<Integer> vector;
+    
+    public Box closest = null;
+    @Getter
+    private double dist = 0;
+    
+    
+    public Box(int x, int y, int z) {
+        this(new Vector<>(x, y, z));
     }
     
-    public double dst2(Box other) {
-        int[] vec1 = vector();
-        int[] vec2 = other.vector();
-        int dst2 = 0;
-        for (int i = 0; i < 3; i++) {
-            int diff = vec1[i] - vec2[i];
-            dst2 += diff * diff;
-        }
-        return dst2;
+    public Box(String line) {
+        this(getVector(line));
     }
+    
     
     public double dst(Box other) {
-        return Math.sqrt(dst2(other));
+        return vector.dst(other.vector);
     }
-
+    
+    public void connect(Box toAnother) {
+        dist = dst(toAnother);
+        closest = toAnother;
+    }
+    
+    public int propagateId(int circuitId) {
+        return propagateId(circuitId, this);
+    }
+    
+    
+    int propagateId(int circuitId, Box firstNode) {
+        if (this.circuitId == null) {
+            this.circuitId = circuitId;
+        } else {
+            circuitId = Math.min(this.circuitId, circuitId);
+        }
+        
+        closest = nullIfClosestIs(firstNode);
+        
+        if (closest != null) {
+            circuitId = Math.min(
+                    closest.propagateId(circuitId, firstNode), 
+                    circuitId
+                    );
+        }
+        
+        this.circuitId = circuitId;
+        return circuitId;
+    }
+    
+    
+    private Box nullIfClosestIs(Box firstNode) {
+        if (closest == null || closest.equals(firstNode)) {
+            return null;
+        }
+        return closest;
+    }
+    
+    
     @Override
-    public String toString() {
-        return String.format("%d#(%d;%d;%d)", id, x, y, z);
+    public boolean equals(Object o) {
+        boolean result = false;
+        if (o instanceof Box b) {
+            result = vector.equals(b.vector);
+        }
+        
+        return result;
     }
-
+    
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return vector.hashCode();
     }
-
+    
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Box b) {
-            return x == b.x && y == b.y && z == b.z;
-        }
-        return false;
+    public String toString() {
+        return String.format(
+                "[%s] %d#[%s]", 
+                String.valueOf(circuitId), 
+                id, 
+                vector
+                );
     }
-    
-    
 }
