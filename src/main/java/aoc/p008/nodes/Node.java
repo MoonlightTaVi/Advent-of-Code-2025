@@ -1,6 +1,8 @@
 package aoc.p008.nodes;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import aoc.shared.Vector;
 import lombok.Getter;
@@ -59,22 +61,25 @@ public class Node {
     
     
     public int propagateId(int circuitId) {
-        return propagateId(circuitId, this);
+        Set<Node> passedNodes = new HashSet<>();
+        return propagateId(circuitId, passedNodes);
     }
     
     
-    int propagateId(int circuitId, Node firstNode) {
+    int propagateId(int circuitId, Set<Node> passedNodes) {
+        passedNodes.add(this);
+        
         if (this.circuitId == null) {
             this.circuitId = circuitId;
         } else {
             circuitId = Math.min(this.circuitId, circuitId);
         }
         
-        closest = nullIfClosestIs(firstNode);
+        closest = nullIfCircular(passedNodes);
         
         if (closest != null) {
             circuitId = Math.min(
-                    closest.propagateId(circuitId, firstNode), 
+                    closest.propagateId(circuitId, passedNodes), 
                     circuitId
                     );
         }
@@ -84,8 +89,8 @@ public class Node {
     }
     
     
-    private Node nullIfClosestIs(Node firstNode) {
-        if (closest == null || closest.equals(firstNode)) {
+    private Node nullIfCircular(Set<Node> passedNodes) {
+        if (closest == null || passedNodes.contains(closest)) {
             return null;
         }
         return closest;
