@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
-public class Box {
+public class Node {
     
     public static Vector<Integer> getVector(String line) {
         int[] position = Arrays.stream(line.split(","))
@@ -27,35 +27,43 @@ public class Box {
     public Integer circuitId;
     public final Vector<Integer> vector;
     
-    public Box closest = null;
+    public Node closest = null;
     @Getter
     private double dist = 0;
     
     
-    public Box(int x, int y, int z) {
+    public Node(int x, int y, int z) {
         this(new Vector<>(x, y, z));
     }
     
-    public Box(String line) {
+    public Node(String line) {
         this(getVector(line));
     }
     
     
-    public double dst(Box other) {
+    public double dst(Node other) {
+        if (other == null) {
+            return 0;
+        }
         return vector.dst(other.vector);
     }
     
-    public void connect(Box toAnother) {
+    public void connect(Node toAnother) {
         dist = dst(toAnother);
         closest = toAnother;
     }
+    
+    public boolean isConnected(Node toAnother) {
+        return closest != null && closest.equals(toAnother);
+    }
+    
     
     public int propagateId(int circuitId) {
         return propagateId(circuitId, this);
     }
     
     
-    int propagateId(int circuitId, Box firstNode) {
+    int propagateId(int circuitId, Node firstNode) {
         if (this.circuitId == null) {
             this.circuitId = circuitId;
         } else {
@@ -76,7 +84,7 @@ public class Box {
     }
     
     
-    private Box nullIfClosestIs(Box firstNode) {
+    private Node nullIfClosestIs(Node firstNode) {
         if (closest == null || closest.equals(firstNode)) {
             return null;
         }
@@ -87,7 +95,7 @@ public class Box {
     @Override
     public boolean equals(Object o) {
         boolean result = false;
-        if (o instanceof Box b) {
+        if (o instanceof Node b) {
             result = vector.equals(b.vector);
         }
         
