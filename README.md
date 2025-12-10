@@ -101,3 +101,19 @@ Package `p007`, resourse file `007.txt`, JUnit tests at `BeamsTest.java`.
 It was the most interesting task by now; my PC was going to explode from either Heap Memory exhaustion or CPU overheating.
 But suddenly I decided to visit [reddit](https://www.reddit.com/r/adventofcode/comments/1pgxv5w/year_2025_day_7_no_memoization_still_runs_in_10_%C2%B5s/) and realized
 that the solution is very simple and poetic, indeed.
+
+# Day 8: Playground
+
+> Connect all junction boxes (nodes) together by connecting the pairs of boxes based on their closed distance to each other.
+
+[Detailed description](https://adventofcode.com/2025/day/8)
+
+Started `2025/12/08` / Finished `2025/12/10`. 
+
+Package `p008`, resourse file `008.txt`, JUnit tests at `CircuitTest.java`.
+
+The problem with this task was that I didn't understand the description.
+
+At first I tried to connect the first 10 (test) / 1000 (main) boxes to their closest pair (which isn't them and isn't connected to them), and funnily enough, the result was correct for the test case, which is a dumb coincidance.
+
+Then, when I rewrote all the code, started from scratch and made ALL possible connections (sorting and then limitting to the 10/1000 first), it just poofed and voila: 2 hours to complete by using almost the same strategy (except that the code is more compact) and the experience from the 3 days of pain.
