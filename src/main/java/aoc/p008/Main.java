@@ -2,21 +2,31 @@ package aoc.p008;
 
 import aoc.Validation;
 
-public class Main {
 
-    // 12600 is too low
+public class Main {
+    static int part1 = 63920;
+    static int part2 = 1026594680;
+
     public static void main(String[] args) {
-        NodeProcessor processor = new NodeProcessor();
-        processor.findClosest(1000);
-        processor.generateCircuits();
+        MasterProcessor processor = new MasterProcessor();
         
-        processor.print();
         
-        long product = processor.calculateProduct(3);
+        int product = processor.getProduct();
         
         Validation.print(
-                "Sizes of the three largest circuits multiplied", 
+                "The sizes of the three largest circuits multiplied together", 
                 product
                 );
+        Validation.validate(part1, product);
+        
+        
+        int distance = processor.getDistance();
+        
+        Validation.print(
+                "X coordinates of the last pair miltiplied", 
+                distance
+                );
+        Validation.validate(part2, distance);
     }
+    
 }

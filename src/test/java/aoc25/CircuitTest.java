@@ -1,46 +1,44 @@
 package aoc25;
 
+import java.util.List;
+
 import org.junit.jupiter.api.*;
 
-import aoc.p008.*;
-import aoc.p008.nodes.Node;
+import aoc.p008.circuits.Circuits;
+import aoc.p008.nodes.Connection;
+import aoc.p008.nodes.JunctionSource;
 
 
 public class CircuitTest {
-    static NodeProcessor boxes;
-    
-    static final double threshold = 0.0001;
+    static JunctionSource source;
+    static List<Connection> connections;
 
     
-    @BeforeAll
-    public static void setup() {
-        boxes = new NodeProcessor();
-        boxes.findClosest(10);
-    }
-    
-    public static boolean almostEqual(double x, double y) {
-        return Math.abs(x - y) <= threshold;
+    @BeforeEach
+    public void setup() {
+        source = new JunctionSource();
+        connections = source.makeConnections();
     }
 
     
     @Test
-    public void someTest() {
-        boxes.generateCircuits();
-        //boxes.print();
-        long sum = boxes.calculateProduct(3);
-        Assertions.assertEquals(40, sum);
+    public void productTest() {
+        Circuits circuits = new Circuits(source.nodes);
+        
+        int product = circuits.getProduct(connections, 10, 3);
+        int expected = 40;
+        
+        Assertions.assertEquals(expected, product);
     }
-    
+
     @Test
     public void distanceTest() {
-        Node b1 = new Node("162,817,812");
-        Node b2 = new Node("425,690,689");
-        Node b3 = new Node("431,825,988");
+        Circuits circuits = new Circuits(source.nodes);
         
-        Assertions.assertTrue( almostEqual(316.9021931133, b1.dst(b2)) );
-        Assertions.assertTrue( almostEqual(321.5602587385, b1.dst(b3)) );
-        Assertions.assertTrue( almostEqual(328.1188808953, b2.dst(b3)) );
+        int distance = circuits.getDistance(connections);
+        int expected = 25272;
         
+        Assertions.assertEquals(expected, distance);
     }
     
 }
