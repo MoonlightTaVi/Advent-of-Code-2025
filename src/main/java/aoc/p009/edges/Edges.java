@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aoc.p009.TileReader;
+import aoc.p009.squares.Corner;
 import aoc.shared.BinarySearch;
 import aoc.shared.IntVector2;
 
@@ -38,11 +39,32 @@ public class Edges {
     }
     
     
-    public int castLeft(IntVector2 vector) {
-        return raycastH.castLeft(vector, vertical);
+    public boolean isInsidePolygon(Corner corner) {
+        if (corner.facesLeft()) {
+            return hitLeft(corner.middle);
+        } else {
+            return hitRight(corner.middle);
+        }
     }
     
-    public int castRight(IntVector2 vector) {
-        return raycastH.castRight(vector, vertical);
+    
+    public boolean hitLeft(IntVector2 vector) {
+        int id = raycastH.castLeft(vector, vertical);
+        for (int i = id; i > 0; i--) {
+            if (vertical[i].intersects(vector.y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean hitRight(IntVector2 vector) {
+        int id = raycastH.castRight(vector, vertical);
+        for (int i = id; i < vertical.length; i++) {
+            if (vertical[i].intersects(vector.y)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
