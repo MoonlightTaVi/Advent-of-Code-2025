@@ -15,7 +15,7 @@ public class VerticalEdge {
     
     
     public boolean intersects(int yLine) {
-        return yLine >= y1 && yLine <= y2;
+        return yLine > y1 && yLine < y2;
     }
     
 }

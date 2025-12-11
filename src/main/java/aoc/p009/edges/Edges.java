@@ -26,7 +26,7 @@ public class Edges {
             IntVector2 vec2 = vectors[(i + 1) % len];
             
             // Is not a vertical edge
-            if (vec1.x != vec2.x) {
+            if (!vec1.x.equals(vec2.x)) {
                 continue;
             }
             
@@ -50,8 +50,7 @@ public class Edges {
     
     
     public boolean hitLeft(IntVector2 vector) {
-        int id = raycastH.castLeft(vector, vertical);
-        for (int i = id; i > 0; i--) {
+        for (int i = vertical.length - 1; i >= 0; i--) {
             if (vertical[i].intersects(vector.y)) {
                 return true;
             }
@@ -60,8 +59,7 @@ public class Edges {
     }
     
     public boolean hitRight(IntVector2 vector) {
-        int id = raycastH.castRight(vector, vertical);
-        for (int i = id; i < vertical.length; i++) {
+        for (int i = 0; i < vertical.length; i++) {
             if (vertical[i].intersects(vector.y)) {
                 return true;
             }
