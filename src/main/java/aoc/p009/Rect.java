@@ -33,10 +33,10 @@ public class Rect {
     
     
     public boolean overlaps(Rect another) {
-        boolean left = x2() < another.x1();
-        boolean right = x1() > another.x2();
-        boolean top = y2() < another.y1();
-        boolean bottom = y1() > another.y2();
+        boolean left = x2() <= another.x1();
+        boolean right = x1() >= another.x2();
+        boolean top = y2() <= another.y1();
+        boolean bottom = y1() >= another.y2();
         
         return !(left || right || top || bottom);
     }

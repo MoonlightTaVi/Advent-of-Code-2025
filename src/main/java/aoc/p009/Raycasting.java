@@ -33,26 +33,13 @@ public class Raycasting {
     
     
     public boolean isRectValid(Rect rect) {
-        LongVector2[] vectors = new LongVector2[] { 
-                rect.a, 
-                rect.b, 
-                rect.c, 
-                rect.d 
-                };
+        LongVector2 center = rect.center();
         
-        boolean testPassed = true;
-        for (LongVector2 vec : vectors) {
-            if (ignored.contains(vec)) {
-                continue;
-            }
-            testPassed = testPassed && isVectorValid(vec);
-        }
-        
-        return testPassed;
+        return isVectorValid(center);
     }
     
     public boolean isVectorValid(LongVector2 vec) {
-        boolean invalid = false;
+        boolean valid = false;
         
         for (YLine line : lines) {
             if (vec.x.equals(line.x)) {
@@ -60,10 +47,10 @@ public class Raycasting {
             }
             
             if (line.intersects(vec)) {
-                invalid = !invalid;
+                valid = !valid;
             }
         }
         
-        return invalid;
+        return valid;
     }
 }
