@@ -32,17 +32,19 @@ public class TileProcessor {
             
             rects.add(new Rect(vec1, vec2, vec3));
             
+            if (vec1.x.equals(vec2.x)) {
+                raycast.makeYLine(vec1, vec2);
+            }
+            
             for (int j = i + 1; j <= vectors.length; j++) {
                 vec2 = vectors[j % len];
                 
                 Rect dummy = new Rect(vec1, vec2);
-                if (dummy.square() > largestArea) {
-                    largestArea = dummy.square();
+                if (dummy.area() > largestArea) {
+                    largestArea = dummy.area();
                 }
                 
-                if (vec1.x.equals(vec2.x)) {
-                    raycast.makeYLine(vec1, vec2);
-                }
+                
             }
         }
         
@@ -57,13 +59,12 @@ public class TileProcessor {
     
     public long areaLimited() {
         return rects.stream()
-                .filter(r -> raycast.isRectValid(r))
                 .sorted(
                         (r1, r2) -> 
-                        Long.compare(r2.square(), r1.square())
+                        Long.compare(r2.area(), r1.area())
                         )
                 .limit(1)
-                .mapToLong(r -> r.square())
+                .mapToLong(r -> r.area())
                 .findFirst()
                 .orElseThrow();
     }

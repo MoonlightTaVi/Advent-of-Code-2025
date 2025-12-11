@@ -64,7 +64,7 @@ public class Rect {
     }
     
     
-    public long square() {
+    public long area() {
         return area != 0 ? area : generateArea();
     }
     
