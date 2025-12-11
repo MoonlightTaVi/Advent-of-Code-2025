@@ -12,10 +12,10 @@ public class Main {
     
     
     public static void main(String[] args) {
-        TileReader tiles = new TileReader();
-        SquareProcessor squares = new SquareProcessor(tiles.sortedByX());
+        TileReader reader = new TileReader();
+        SquareProcessor squares = new SquareProcessor();
         
-        long resultP1 = squares.getLargest();
+        long resultP1 = squares.getLargest(reader);
         
         Validation.print("The largest square", resultP1);
         Validation.validate(squareP1, resultP1);

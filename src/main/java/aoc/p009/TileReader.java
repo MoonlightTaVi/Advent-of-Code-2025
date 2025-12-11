@@ -8,7 +8,7 @@ import aoc.shared.IntVector2;
 
 
 public class TileReader extends FileReader {
-    public final IntVector2[] tiles;
+    private final IntVector2[] tiles;
 
     public TileReader() {
         tiles = super.read("009.txt").stream()
@@ -17,8 +17,13 @@ public class TileReader extends FileReader {
     }
     
     
+    public IntVector2[] naturalOrder() {
+        return tiles;
+    }
+    
     public IntVector2[] sortedByX() {
-        Arrays.sort(tiles, (a, b) -> a.x - b.x);
+        IntVector2[] copied = tiles.clone();
+        Arrays.sort(copied, (a, b) -> a.x - b.x);
         return tiles;
     }
     

@@ -11,12 +11,13 @@ import aoc.shared.IntVector2;
 
 public class Edges {
 
+    public final IntVector2[] vectors;
     public final VerticalEdge[] vertical;
     public final BinarySearch<IntVector2, VerticalEdge> raycastH;
     
     
     public Edges(TileReader reader) {
-        IntVector2[] vectors = reader.tiles;
+        vectors = reader.naturalOrder();
         int len = vectors.length;
         List<VerticalEdge> vertList = new ArrayList<>();
         
