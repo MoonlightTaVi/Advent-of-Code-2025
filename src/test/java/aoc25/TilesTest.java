@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import aoc.p009.TileProcessor;
 import aoc.p009.TileReader;
-import aoc.p009.edges.Edges;
-import aoc.p009.squares.SquareProcessor;
 
 
 /**
@@ -14,30 +13,30 @@ import aoc.p009.squares.SquareProcessor;
  */
 public class TilesTest {
     static TileReader reader;
+    static TileProcessor processor;
     
     @BeforeAll
     public static void setup() {
         reader = new TileReader();
+        processor = new TileProcessor(reader);
+        processor.process();
     }
     
     
     @Test
     public void squareTest() {
-        SquareProcessor squares = new SquareProcessor();
         
         long expected = 50;
-        long result = squares.getLargest(reader);
+        long result = processor.areaLargest();
         
         Assertions.assertEquals(expected, result);
     }
     
     @Test
     public void redGreenTest() {
-        SquareProcessor squares = new SquareProcessor();
-        Edges polygon = new Edges(reader);
         
         long expected = 24;
-        long result = squares.getRedGreen(polygon);
+        long result = processor.areaLimited();
         
         Assertions.assertEquals(expected, result);
     }
