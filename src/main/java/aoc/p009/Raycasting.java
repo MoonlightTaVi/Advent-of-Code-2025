@@ -1,12 +1,24 @@
 package aoc.p009;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import aoc.shared.LongVector2;
+import lombok.Getter;
 
 public class Raycasting {
     public final List<YLine> lines = new ArrayList<>();
+    
+    @Getter
+    private Set<LongVector2> ignored = new HashSet<>();
+    
+    
+    public void updateIgnored(Set<LongVector2> fromSet) {
+        ignored.addAll(fromSet);
+        fromSet.clear();
+    }
     
     
     public boolean makeYLine(LongVector2 vec1, LongVector2 vec2) {
@@ -21,12 +33,22 @@ public class Raycasting {
     
     
     public boolean isRectValid(Rect rect) {
-        boolean testA = isVectorValid(rect.a);
-        boolean testB = isVectorValid(rect.b);
-        boolean testC = isVectorValid(rect.c);
-        boolean testD = isVectorValid(rect.d);
+        LongVector2[] vectors = new LongVector2[] { 
+                rect.a, 
+                rect.b, 
+                rect.c, 
+                rect.d 
+                };
         
-        return testA && testB && testC && testD;
+        boolean testPassed = true;
+        for (LongVector2 vec : vectors) {
+            if (ignored.contains(vec)) {
+                continue;
+            }
+            testPassed = testPassed && isVectorValid(vec);
+        }
+        
+        return testPassed;
     }
     
     public boolean isVectorValid(LongVector2 vec) {

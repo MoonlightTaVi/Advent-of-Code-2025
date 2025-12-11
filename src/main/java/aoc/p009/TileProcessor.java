@@ -10,6 +10,7 @@ public class TileProcessor {
     public final LongVector2[] vectors;
     
     public final Raycasting raycast = new Raycasting();
+    public final Set<LongVector2> horizontal = new HashSet<>();
     public final Set<Rect> rects = new HashSet<>();
     
     
@@ -31,12 +32,18 @@ public class TileProcessor {
                 vec2 = vectors[j % len];
                 rects.add(new Rect(vec1, vec2));
                 
+                if (vec1.y.equals(vec2.y)) {
+                    horizontal.add(vec1);
+                    horizontal.add(vec2);
+                }
+                
                 if (vec1.x.equals(vec2.x)) {
                     raycast.makeYLine(vec1, vec2);
                 }
-                
             }
         }
+        
+        raycast.updateIgnored(horizontal);
     }
     
     
