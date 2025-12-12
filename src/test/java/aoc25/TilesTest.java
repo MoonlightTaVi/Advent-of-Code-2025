@@ -51,4 +51,26 @@ public class TilesTest {
         boolean result = !r1.overlaps(r2);
         Assertions.assertTrue(result);
     }
+    
+    @Test
+    public void orientedAreaTest() {
+        LongVector2 a = new LongVector2(0, 0);
+        LongVector2 b = new LongVector2(1, 0);
+        LongVector2 c = new LongVector2(1, 1);
+        
+        Rect r1 = new Rect(a, b, c); // L-shaped corner (L mirrored by X)
+        Rect r2 = new Rect(c, b, a); // L-shaped corner (usual L)
+        
+        long positiveArea = r1.orientedArea();
+        long negativeArea = r2.orientedArea();
+        
+        boolean positive = positiveArea > 0;
+        boolean negative = negativeArea < 0;
+        
+        Assertions.assertTrue(positive);
+        Assertions.assertTrue(negative);
+        
+        Assertions.assertEquals(4, positiveArea);
+        Assertions.assertEquals(-4, negativeArea);
+    }
 }

@@ -68,6 +68,21 @@ public class Rect {
         return area != 0 ? area : generateArea();
     }
     
+    public long orientedArea() {
+        return area() * areaSign();
+    }
+    
+    
+    public int areaSign() {
+        return areaNegaive() ? -1 : 1;
+    }
+    
+    public boolean areaNegaive() {
+        long basicOrientedArea = (a.x * b.y - b.x * a.y)
+                + (b.x * c.y - c.x * b.y);
+        return basicOrientedArea < 0;
+    }
+    
     
     private long generateArea() {
         area = (x2() - x1() + 1) * (y2() - y1() + 1);
