@@ -117,3 +117,21 @@ The problem with this task was that I didn't understand the description.
 At first I tried to connect the first 10 (test) / 1000 (main) boxes to their closest pair (which isn't them and isn't connected to them), and funnily enough, the result was correct for the test case, which is a dumb coincidance.
 
 Then, when I rewrote all the code, started from scratch and made ALL possible connections (sorting and then limitting to the 10/1000 first), it just poofed and voila: 2 hours to complete by using almost the same strategy (except that the code is more compact) and the experience from the 3 days of pain.
+
+# Day 9: Movie Theater
+
+> Given a polygon (made of 1x1 tiles) find two largest areas formed by rectangles made of pairs of tiles:
+> one is the largest possible, the other is the largest inner (i.e. inside the polygon).
+
+[Detailed description](https://adventofcode.com/2025/day/9)
+
+Started `2025/12/10` / Finished `2025/12/12`. 
+
+Package `p009`, resourse file `009.txt`, JUnit tests at `TilesTest.java`.
+
+- Good news that I knew the theoretical solution from the first day (it is related to CW/CCW turns of the corners);
+- Bad news is that I started thinking it is not the correct solution (you can find the `Raycasting` approach in repo history; that didn't work either);
+- Good news is that I realized it actually was the correct solution;
+- Bad news is that I'm bad at math and couldn't calculate the cross product for two days;
+- Good news is that **now I know the formula of the cross product by heart**;
+- And this task was cool, too.
