@@ -21,7 +21,8 @@ public class TilesTest {
     public static void setup() {
         reader = new TileReader();
         processor = new TileProcessor(reader);
-        processor.process();
+        processor.processCorners();
+        processor.processAll();
     }
     
     
