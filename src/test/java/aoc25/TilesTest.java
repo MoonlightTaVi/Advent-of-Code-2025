@@ -54,24 +54,29 @@ public class TilesTest {
     }
     
     @Test
-    public void orientedAreaTest() {
-        LongVector2 a = new LongVector2(0, 0);
-        LongVector2 b = new LongVector2(1, 0);
-        LongVector2 c = new LongVector2(1, 1);
+    public void signedAreaTest() {
+        LongVector2 a = new LongVector2(11, 1);
+        LongVector2 b = new LongVector2(11, 7);
+        LongVector2 c = new LongVector2(9, 7);
+        LongVector2 d = new LongVector2(9, 5);
         
-        Rect r1 = new Rect(a, b, c); // L-shaped corner (L mirrored by X)
-        Rect r2 = new Rect(c, b, a); // L-shaped corner (usual L)
+        Rect r1 = new Rect(a, b, c);
+        Rect r2 = new Rect(b, c, d);
         
-        long positiveArea = r1.orientedArea();
-        long negativeArea = r2.orientedArea();
+        Rect r3 = new Rect(d, c, b);
         
-        boolean positive = positiveArea > 0;
-        boolean negative = negativeArea < 0;
+        boolean firstPositive = !r1.isClockwise();
+        boolean secondPositive = !r2.isClockwise();
         
-        Assertions.assertTrue(positive);
-        Assertions.assertTrue(negative);
+        boolean thirdNegative = r3.isClockwise();
         
-        Assertions.assertEquals(4, positiveArea);
-        Assertions.assertEquals(-4, negativeArea);
+        Assertions.assertEquals(firstPositive, secondPositive);
+        
+        Assertions.assertTrue(firstPositive);
+        Assertions.assertTrue(secondPositive);
+        Assertions.assertTrue(thirdNegative);
+        
+        Assertions.assertEquals(12, r1.cross());
+        Assertions.assertEquals(4, r2.cross());
     }
 }

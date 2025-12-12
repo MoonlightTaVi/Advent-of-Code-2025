@@ -59,42 +59,30 @@ public class Rect {
     }
     
     
-    public LongVector2 center() {
-        return center != null ? center : generateCenter();
-    }
-    
-    
     public long area() {
         return area != 0 ? area : generateArea();
     }
     
-    public long orientedArea() {
-        return area() * areaSign();
+    
+    public int crossSign() {
+        return isClockwise() ? -1 : 1;
     }
     
-    
-    public int areaSign() {
-        return areaNegative() ? -1 : 1;
+    public boolean isClockwise() {
+        return cross() < 0;
     }
     
-    public boolean areaNegative() {
-        long basicOrientedArea = (a.x * b.y - b.x * a.y)
-                + (b.x * c.y - c.x * b.y);
-        return basicOrientedArea < 0;
+    public long cross() {
+        LongVector2 vec1 = new LongVector2(b.x - a.x, b.y - a.y);
+        LongVector2 vec2 = new LongVector2(c.x - b.x, c.y - b.y);
+        
+        return vec1.x * vec2.y - vec1.y * vec2.x;
     }
     
     
     private long generateArea() {
         area = (x2() - x1() + 1) * (y2() - y1() + 1);
         return area;
-    }
-    
-    private LongVector2 generateCenter() {
-        center = new LongVector2(
-                x1() + (x2() - x1()) / 2, 
-                y1() + (y2() - y1()) / 2
-                );
-        return center;
     }
     
     

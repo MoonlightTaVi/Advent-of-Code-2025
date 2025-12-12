@@ -40,7 +40,7 @@ public class TileProcessor {
             
             Rect rect = new Rect(vecA, vecB, vecC);
             
-            if (rect.areaNegative()) {
+            if (rect.isClockwise()) {
                 outsideRects.add(rect);
             } else {
                 insideRects.add(rect);
@@ -57,7 +57,7 @@ public class TileProcessor {
                 
                 Rect rect = new Rect(start, opposite);
                 
-                long area = rect.orientedArea();
+                long area = rect.area();
                 
                 if (area > largestArea) {
                     largestArea = area;
