@@ -8,6 +8,7 @@ import aoc.Validation;
  */
 public class Main {
     static long squareP1 = 4_764_078_684L;
+    static long squareP2 = 1_652_344_888;
     
     // 114_894_852 too low.. 150_497_383 ? too low
     // 2_930_655_546 is not right
@@ -27,7 +28,7 @@ public class Main {
         long resultP2 = processor.areaInside();
         
         Validation.print("The largest area (inside)", resultP2);
-        Validation.validate(squareP1, resultP1);
+        Validation.validate(squareP2, resultP2);
     }
     
 }

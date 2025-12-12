@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import aoc.shared.LongVector2;
 
+
 public class Rect {
 
     public final LongVector2 a;
@@ -11,7 +12,6 @@ public class Rect {
     public final LongVector2 c;
     public final LongVector2 d;
     
-    private LongVector2 center = null;
     private long area = 0;
     
     
