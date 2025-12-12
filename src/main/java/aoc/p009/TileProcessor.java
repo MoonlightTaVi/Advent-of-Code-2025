@@ -6,15 +6,22 @@ import java.util.Set;
 import aoc.shared.LongVector2;
 
 
+/**
+ * Processes rectangles made of tiles. <br>
+ * Returns the rectangle with the largest area (overall or only
+ * inside the polygon).
+ */
 public class TileProcessor {
+    /** Points of a polygon. */
     public final LongVector2[] vectors;
     
-    public final Set<Rect> insideRects = new HashSet<>();
-    public final Set<Rect> outsideRects = new HashSet<>();
+    public final Set<Rect> outerRects = new HashSet<>();
     
     
+    private Rect largest = null;
     private long largestArea = 0;
-    private long largestAreaInside = 0;
+    private Rect largestInner = null;
+    private long largestInnerArea = 0;
     
     
     public TileProcessor(TileReader reader) {
@@ -22,16 +29,29 @@ public class TileProcessor {
     }
 
     
-    public long areaLargest() {
-        return largestArea;
+    /**
+     * The rectangle with the largest area. <br>
+     * {@code processAll()} must be called first to find this rectangle.
+     * @see #processAll()
+     */
+    public Rect getLargest() {
+        return largest;
     }    
     
-    public long areaInside() {
-        return largestAreaInside;
+    /**
+     * The rectangle with the largest area that is inside the polygon.
+     * {@code processAll()} must be called first to find this rectangle.
+     * @see #processAll()
+     */
+    public Rect getInnerLargest() {
+        return largestInner;
     }
     
     
-    public void processCorners() {
+    /**
+     * Finds all outer corners of a polygon.
+     */
+    public void makePolygon() {
         int len = vectors.length;
         for (int i = 0; i < len; i++) {
             LongVector2 vecA = vectors[i];
@@ -40,14 +60,18 @@ public class TileProcessor {
             
             Rect rect = new Rect(vecA, vecB, vecC);
             
-            if (rect.isClockwise()) {
-                outsideRects.add(rect);
-            } else {
-                insideRects.add(rect);
+            if (!rect.isClockwise()) {
+                outerRects.add(rect);
             }
         }
     }
     
+    /**
+     * Processes all rectangles; finds and stores the ones with
+     * the largest areas. Call {@code makePolygon()} first.
+     * @see #getLargest()
+     * @see #getInnerLargest()
+     */
     public void processAll() {
         int len = vectors.length;
         for (int i = 0; i < len; i++) {
@@ -60,23 +84,30 @@ public class TileProcessor {
                 long area = rect.area();
                 
                 if (area > largestArea) {
+                    largest = rect;
                     largestArea = area;
                 }
                 
-                if (area > largestAreaInside && isInsidePolygon(rect)) {
-                    largestAreaInside = area;
+                if (area > largestInnerArea && isInsidePolygon(rect)) {
+                    largestInner = rect;
+                    largestInnerArea = area;
                 }
             }
         }
     }
     
     
+    /**
+     * Checks if a rectangle is inside the polygon.
+     * @param rect
+     * @return
+     */
     public boolean isInsidePolygon(Rect rect) {
-        if (outsideRects.isEmpty()) {
+        if (outerRects.isEmpty()) {
             throw new IllegalStateException("Polygon is not initialized");
         }
         
-        for (Rect outsideRect : outsideRects) {
+        for (Rect outsideRect : outerRects) {
             
             if (rect.overlaps(outsideRect)) {
                 return false;
