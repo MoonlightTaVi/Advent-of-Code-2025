@@ -74,10 +74,10 @@ public class Rect {
     
     
     public int areaSign() {
-        return areaNegaive() ? -1 : 1;
+        return areaNegative() ? -1 : 1;
     }
     
-    public boolean areaNegaive() {
+    public boolean areaNegative() {
         long basicOrientedArea = (a.x * b.y - b.x * a.y)
                 + (b.x * c.y - c.x * b.y);
         return basicOrientedArea < 0;

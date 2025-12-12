@@ -26,7 +26,7 @@ public class TileProcessor {
         return largestArea;
     }    
     
-    public long areaLimited() {
+    public long areaInside() {
         return largestAreaInside;
     }
     
@@ -40,7 +40,7 @@ public class TileProcessor {
             
             Rect rect = new Rect(vecA, vecB, vecC);
             
-            if (rect.areaNegaive()) {
+            if (rect.areaNegative()) {
                 outsideRects.add(rect);
             } else {
                 insideRects.add(rect);
@@ -57,7 +57,7 @@ public class TileProcessor {
                 
                 Rect rect = new Rect(start, opposite);
                 
-                long area = rect.area();
+                long area = rect.orientedArea();
                 
                 if (area > largestArea) {
                     largestArea = area;

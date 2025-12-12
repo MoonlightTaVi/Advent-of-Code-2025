@@ -39,7 +39,7 @@ public class TilesTest {
     public void redGreenTest() {
         
         long expected = 24;
-        long result = processor.areaLimited();
+        long result = processor.areaInside();
         
         Assertions.assertEquals(expected, result);
     }
