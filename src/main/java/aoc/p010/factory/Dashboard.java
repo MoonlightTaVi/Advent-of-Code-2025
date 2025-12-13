@@ -36,7 +36,7 @@ public class Dashboard {
     
     
     public boolean shouldBruteforce() {
-        return joltage.lowestJoltage < 15;
+        return joltage.lowestJoltage < 5;
     }
     
     

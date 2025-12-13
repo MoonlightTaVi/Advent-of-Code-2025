@@ -63,6 +63,9 @@ public class Elf {
             
             allButtonPresses += dashboard.countPresses();
             allButtonPresses += fewestPresses;
+            
+            int progress = (int) ((float) i / len * 100);
+            System.out.printf("%d%%%n", progress);
         }
         
         return allButtonPresses;

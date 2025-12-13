@@ -23,6 +23,9 @@ public class Joltage {
         int sum = 0;
         for (int id : button.affectsIds) {
             sum += value[id];
+            if (value[id] == 0) {
+                return 0;
+            }
         }
         return sum;
     }
