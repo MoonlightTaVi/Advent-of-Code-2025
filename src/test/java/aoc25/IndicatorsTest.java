@@ -38,4 +38,15 @@ public class IndicatorsTest {
         
         Assertions.assertEquals(6, state);
     }
+    
+    @Test
+    public void bitButtonTest() {
+        Machine machine = reader.getMachine(0);
+        
+        int btn0 = machine.getButton(0);
+        int btn1 = machine.getButton(1);
+        
+        Assertions.assertEquals(8, btn0);
+        Assertions.assertEquals(10, btn1);
+    }
 }

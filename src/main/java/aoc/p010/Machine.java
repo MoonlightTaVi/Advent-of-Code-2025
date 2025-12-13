@@ -1,5 +1,7 @@
 package aoc.p010;
 
+import java.util.Arrays;
+
 import lombok.RequiredArgsConstructor;
 
 
@@ -18,6 +20,19 @@ public class Machine {
         for (int i = start; i >= 0; i--) {
             int unit = arr[i] == '#' ? 1 : 0;
             result += unit * Math.pow(2, i);
+        }
+        
+        return result;
+    }
+    
+    public int getButton(int id) {
+        int[] arr = Arrays.stream(buttons[id].split(","))
+                .mapToInt(Integer::valueOf)
+                .toArray();
+        
+        int result = 0;
+        for (int n : arr) {
+            result = result | (1 << n);
         }
         
         return result;
