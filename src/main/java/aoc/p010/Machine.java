@@ -70,4 +70,32 @@ public class Machine {
         
         return combination;
     }
+    
+    
+    public boolean press(int... buttons) {
+        int state = 0;
+        
+        for (int button : buttons) {
+            state = state ^ button;
+        }
+        
+        return state == getStartedState();
+    }
+    
+    public boolean press(boolean... combination) {
+        int len = buttons.length;
+        int start = len - 1;
+        int state = 0;
+        
+        for (int i = start; i >= 0; i--) {
+            boolean toggled = combination[i];
+            if (!toggled) {
+                continue;
+            }
+            int button = getButton(i);
+            state = state ^ button;
+        }
+        
+        return state == getStartedState();
+    }
 }

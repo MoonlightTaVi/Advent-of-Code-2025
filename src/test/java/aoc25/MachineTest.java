@@ -7,7 +7,11 @@ import org.junit.jupiter.api.Test;
 import aoc.p010.Machine;
 import aoc.p010.MachineReader;
 
-public class IndicatorsTest {
+
+/**
+ * JUnit tests for day 10.
+ */
+public class MachineTest {
     
     static MachineReader reader;
     
@@ -82,5 +86,19 @@ public class IndicatorsTest {
 
         Assertions.assertEquals(64, count);
         Assertions.assertArrayEquals(expected, combo);
+    }
+    
+    
+    @Test
+    public void buttonsPressedTest() {
+        Machine machine = reader.getMachine(0);
+        
+        // Press 4th and 5th buttons to start the machine
+        int btn4 = machine.getButton(4);
+        int btn5 = machine.getButton(5);
+        
+        boolean isStarted = machine.press(btn4, btn5);
+        
+        Assertions.assertTrue(isStarted);
     }
 }
