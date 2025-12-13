@@ -3,8 +3,8 @@ package aoc.p010.factory;
 
 public class Dashboard {
 
-    final Button[] buttons;
-    final Joltage joltage;
+    public final Button[] buttons;
+    public final Joltage joltage;
     
     
     public Dashboard(String[] buttonsStr, String joltageRequired) {
@@ -35,10 +35,16 @@ public class Dashboard {
     }
     
     
-    public boolean isJoltageProper() {
-        return joltage.remainder == 0;
+    public boolean shouldBruteforce() {
+        return joltage.lowestJoltage < 15;
     }
     
+    
+    public void mergeButtons(Button[] fromArray) {
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].presses += fromArray[i].presses;
+        }
+    }
     
     public int countPresses() {
         int result = 0;

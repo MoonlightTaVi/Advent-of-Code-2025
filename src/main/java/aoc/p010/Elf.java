@@ -1,5 +1,6 @@
 package aoc.p010;
 
+import aoc.p010.factory.Bruteforce;
 import aoc.p010.factory.Dashboard;
 import aoc.p010.factory.Machine;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,18 @@ public class Elf {
         for (int i = 0; i < len; i++) {
             Dashboard dashboard = factory.getDashboard(i);
             
-            while (!dashboard.isJoltageProper()) {
+            while (!dashboard.shouldBruteforce()) {
                 dashboard.press();
             }
+            Bruteforce brute = new Bruteforce(
+                    dashboard.joltage, 
+                    dashboard.buttons
+                    );
+            do {
+                brute.press();
+            } while (!brute.hasFinished());
+            
+            dashboard.mergeButtons(brute.buttons);
             
             allButtonPresses += dashboard.countPresses();
         }
