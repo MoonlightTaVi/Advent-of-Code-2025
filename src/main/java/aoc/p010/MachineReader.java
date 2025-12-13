@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import aoc.FileReader;
+import aoc.p010.factory.Dashboard;
+import aoc.p010.factory.Machine;
 
 
 public class MachineReader extends FileReader {
@@ -21,6 +23,14 @@ public class MachineReader extends FileReader {
         String[] buttons = getButtons(line);
         
         return new Machine(indicators, buttons);
+    }
+    
+    public Dashboard getDashboard(int id) {
+        String line = super.lines[id];
+        String[] buttons = getButtons(line);
+        String joltage = getJoltage(line);
+        
+        return new Dashboard(buttons, joltage);
     }
     
     public int size() {
@@ -51,6 +61,17 @@ public class MachineReader extends FileReader {
         }
         
         return buttons.toArray(String[]::new);
+    }
+    
+    public String getJoltage(String line) {
+        String regex = "\\{(.*?)\\}";
+        
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(line);
+        m.find();
+        
+        String joltage = m.group(1);
+        return joltage;
     }
     
 }

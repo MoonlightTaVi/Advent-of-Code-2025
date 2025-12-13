@@ -1,5 +1,7 @@
 package aoc.p010;
 
+import aoc.p010.factory.Dashboard;
+import aoc.p010.factory.Machine;
 import lombok.RequiredArgsConstructor;
 
 
@@ -25,6 +27,30 @@ public class Elf {
                 
                 if (success && presses < fewestPresses) {
                     fewestPresses = presses;
+                }
+            }
+            
+            allButtonPresses += fewestPresses;
+        }
+        
+        return allButtonPresses;
+    }
+    
+    
+    public long tryToFixEmJoltages() {
+        long allButtonPresses = 0;
+        
+        int len = factory.size();
+        for (int i = 0; i < len; i++) {
+            Dashboard dashboard = factory.getDashboard(i);
+            long fewestPresses = Integer.MAX_VALUE;
+            
+            while (dashboard.canPress()) {
+                if (dashboard.isJoltageProper()) {
+                    long presses = dashboard.countPresses();
+                    if (presses < fewestPresses) {
+                        fewestPresses = presses;
+                    }
                 }
             }
             

@@ -1,4 +1,4 @@
-package aoc.p010;
+package aoc.p010.factory;
 
 import java.util.Arrays;
 

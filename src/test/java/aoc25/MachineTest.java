@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import aoc.p010.Elf;
-import aoc.p010.Machine;
 import aoc.p010.MachineReader;
+import aoc.p010.factory.Machine;
 
 
 /**
@@ -110,5 +110,14 @@ public class MachineTest {
         long totalPresses = elf.tryToStartEmMachines();
         
         Assertions.assertEquals(7, totalPresses);
+    }
+    
+    @Test
+    public void elfJoltageTest() {
+        Elf elf = new Elf(reader);
+        
+        long totalPresses = elf.tryToFixEmJoltages();
+        
+        Assertions.assertEquals(33, totalPresses);
     }
 }

@@ -14,13 +14,23 @@ public class Main {
         MachineReader factory = new MachineReader();
         Elf elfWorker = new Elf(factory);
         
-        long buttonsPressed = elfWorker.tryToStartEmMachines();
+        long resultP1 = elfWorker.tryToStartEmMachines();
         
         Validation.print(
                 "The fewest button presses required", 
-                buttonsPressed
+                resultP1
                 );
-        Validation.validate(pressesP1, buttonsPressed);
+        Validation.validate(pressesP1, resultP1);
+        
+        long resultP2 = elfWorker.tryToFixEmJoltages();
+        
+        Validation.print(
+                "The fewest button presses required", 
+                resultP1
+                );
+        Validation.validate(pressesP1, resultP2);
+        
+        
     }
     
 }
