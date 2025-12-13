@@ -1,9 +1,6 @@
 package aoc.p010;
 
-import aoc.p010.factory.Bruteforce;
-import aoc.p010.factory.Button;
-import aoc.p010.factory.Dashboard;
-import aoc.p010.factory.Machine;
+import aoc.p010.factory.*;
 import lombok.RequiredArgsConstructor;
 
 
@@ -44,30 +41,18 @@ public class Elf {
         
         int len = factory.size();
         for (int i = 0; i < len; i++) {
-            Dashboard dashboard = factory.getDashboard(i);
+            StartedMachine machine = factory.getStartedMachine(i);
             
-            while (!dashboard.shouldBruteforce()) {
-                if (!dashboard.press()) {
-                    break;
-                }
+            while (machine.hasNotFinished()) {
+                int comboId = machine.getPrioritizedCombinationId();
+                boolean[] buttonStates = machine.getCombination(comboId);
+                int countButtons = machine.countButtons(buttonStates);
+                
+                long[] combo = machine.combinations[comboId];
+                long diff = machine.apply(combo);
+                
+                allButtonPresses += diff * countButtons;
             }
-            Bruteforce brute = new Bruteforce(
-                    dashboard.joltage, 
-                    dashboard.buttons
-                    );
-            
-            long fewestPresses = Integer.MAX_VALUE;
-            while (brute.canContinue()) {
-                if (brute.isResultSuccessful() && brute.lastPressesCount < fewestPresses) {
-                    fewestPresses = brute.lastPressesCount;
-                }
-            }
-            
-            allButtonPresses += dashboard.countPresses();
-            allButtonPresses += fewestPresses;
-            
-            int progress = (int) ((float) i / len * 100);
-            //System.out.printf("%d%%%n", progress);
         }
         
         return allButtonPresses;

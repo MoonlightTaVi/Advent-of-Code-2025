@@ -6,8 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import aoc.FileReader;
-import aoc.p010.factory.Dashboard;
-import aoc.p010.factory.Machine;
+import aoc.p010.factory.*;
 
 
 public class MachineReader extends FileReader {
@@ -25,12 +24,12 @@ public class MachineReader extends FileReader {
         return new Machine(indicators, buttons);
     }
     
-    public Dashboard getDashboard(int id) {
+    public StartedMachine getStartedMachine(int id) {
         String line = super.lines[id];
         String[] buttons = getButtons(line);
         String joltage = getJoltage(line);
         
-        return new Dashboard(buttons, joltage);
+        return new StartedMachine(buttons, joltage);
     }
     
     public int size() {
