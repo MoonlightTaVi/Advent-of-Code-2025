@@ -43,18 +43,12 @@ public class Elf {
         int len = factory.size();
         for (int i = 0; i < len; i++) {
             Dashboard dashboard = factory.getDashboard(i);
-            long fewestPresses = Integer.MAX_VALUE;
             
-            while (dashboard.canPress()) {
-                if (dashboard.isJoltageProper()) {
-                    long presses = dashboard.countPresses();
-                    if (presses < fewestPresses) {
-                        fewestPresses = presses;
-                    }
-                }
+            while (!dashboard.isJoltageProper()) {
+                dashboard.press();
             }
             
-            allButtonPresses += fewestPresses;
+            allButtonPresses += dashboard.countPresses();
         }
         
         return allButtonPresses;

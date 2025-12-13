@@ -16,28 +16,4 @@ public class Button {
                 .mapToInt(Integer::valueOf)
                 .toArray();
     }
-    
-    
-    public void setMaxJoltage(int[] joltage) {
-        for (int id : affectsIds) {
-            if (joltage[id] < maxPresses) {
-                maxPresses = joltage[id];
-            }
-        }
-    }
-
-    public boolean pressAndBreak() {
-        presses++;
-        if (presses > maxPresses) {
-            presses = 0;
-            return false;
-        }
-        return true;
-    }
-    
-    public void affectJoltage(int[] joltage) {
-        for (int id : affectsIds) {
-            joltage[id] += presses;
-        }
-    }
 }
