@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import aoc.p010.Elf;
 import aoc.p010.Machine;
 import aoc.p010.MachineReader;
 
@@ -100,5 +101,14 @@ public class MachineTest {
         boolean isStarted = machine.press(btn4, btn5);
         
         Assertions.assertTrue(isStarted);
+    }
+    
+    @Test
+    public void elfWorkerTest() {
+        Elf elf = new Elf(reader);
+        
+        int totalPresses = elf.tryToStartEmMachines();
+        
+        Assertions.assertEquals(7, totalPresses);
     }
 }

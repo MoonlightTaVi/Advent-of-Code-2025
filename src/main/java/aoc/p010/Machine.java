@@ -98,4 +98,17 @@ public class Machine {
         
         return state == getStartedState();
     }
+    
+    
+    public int countPresses(boolean... combination) {
+        int count = 0;
+        
+        for (boolean combo : combination) {
+            if (combo) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
 }
