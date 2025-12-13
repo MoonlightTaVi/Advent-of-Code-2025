@@ -25,6 +25,9 @@ public class Bruteforce {
             if (i == buttons.length) {
                 return false;
             }
+            if (!buttons[i].affectsAll(joltage)) {
+                continue;
+            }
             if (buttons[i].pressAndBreak()) {
                 break;
             }

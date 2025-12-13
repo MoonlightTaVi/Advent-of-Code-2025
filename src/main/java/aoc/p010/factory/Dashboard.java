@@ -19,7 +19,7 @@ public class Dashboard {
     }
     
     
-    public void press() {
+    public boolean press() {
         Button mostOptimalButton = null;
         int mostOptimalSum = 0;
         
@@ -31,12 +31,17 @@ public class Dashboard {
             }
         }
         
+        if (mostOptimalButton == null) {
+            return false;
+        }
+        
         joltage.press(mostOptimalButton);
+        return true;
     }
     
     
     public boolean shouldBruteforce() {
-        return joltage.lowestJoltage < 5;
+        return joltage.remainder < 10;
     }
     
     

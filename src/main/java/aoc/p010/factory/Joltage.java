@@ -62,9 +62,6 @@ public class Joltage {
                 lowestJoltageId = i;
             }
         }
-        if (lowestJoltage > sum) {
-            lowestJoltage = sum;
-        }
         remainder = sum;
     }
 }

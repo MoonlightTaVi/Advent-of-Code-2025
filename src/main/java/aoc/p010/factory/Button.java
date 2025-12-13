@@ -33,4 +33,14 @@ public class Button {
         // Else, break out of the button loop
         return true;
     }
+    
+    
+    public boolean affectsAll(int[] joltage) {
+        for (int id : affectsIds) {
+            if (joltage[id] == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

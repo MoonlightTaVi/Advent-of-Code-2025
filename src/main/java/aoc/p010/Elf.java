@@ -47,7 +47,9 @@ public class Elf {
             Dashboard dashboard = factory.getDashboard(i);
             
             while (!dashboard.shouldBruteforce()) {
-                dashboard.press();
+                if (!dashboard.press()) {
+                    break;
+                }
             }
             Bruteforce brute = new Bruteforce(
                     dashboard.joltage, 
@@ -65,7 +67,7 @@ public class Elf {
             allButtonPresses += fewestPresses;
             
             int progress = (int) ((float) i / len * 100);
-            System.out.printf("%d%%%n", progress);
+            //System.out.printf("%d%%%n", progress);
         }
         
         return allButtonPresses;

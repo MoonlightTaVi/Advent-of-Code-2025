@@ -17,7 +17,7 @@ public class Main {
         long resultP1 = elfWorker.tryToStartEmMachines();
         
         Validation.print(
-                "The fewest button presses required", 
+                "The fewest button presses required (start)", 
                 resultP1
                 );
         Validation.validate(pressesP1, resultP1);
@@ -25,8 +25,8 @@ public class Main {
         long resultP2 = elfWorker.tryToFixEmJoltages();
         
         Validation.print(
-                "The fewest button presses required", 
-                resultP1
+                "The fewest button presses required (joltage)", 
+                resultP2
                 );
         Validation.validate(pressesP1, resultP2);
         
