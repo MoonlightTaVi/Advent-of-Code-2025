@@ -107,7 +107,7 @@ public class MachineTest {
     public void elfWorkerTest() {
         Elf elf = new Elf(reader);
         
-        int totalPresses = elf.tryToStartEmMachines();
+        long totalPresses = elf.tryToStartEmMachines();
         
         Assertions.assertEquals(7, totalPresses);
     }
