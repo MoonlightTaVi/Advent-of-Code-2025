@@ -1,6 +1,7 @@
 package aoc.p010;
 
 import aoc.p010.factory.Bruteforce;
+import aoc.p010.factory.Button;
 import aoc.p010.factory.Dashboard;
 import aoc.p010.factory.Machine;
 import lombok.RequiredArgsConstructor;
@@ -52,13 +53,16 @@ public class Elf {
                     dashboard.joltage, 
                     dashboard.buttons
                     );
-            do {
-                brute.press();
-            } while (!brute.hasFinished());
             
-            dashboard.mergeButtons(brute.buttons);
+            long fewestPresses = Integer.MAX_VALUE;
+            while (brute.canContinue()) {
+                if (brute.isResultSuccessful() && brute.lastPressesCount < fewestPresses) {
+                    fewestPresses = brute.lastPressesCount;
+                }
+            }
             
             allButtonPresses += dashboard.countPresses();
+            allButtonPresses += fewestPresses;
         }
         
         return allButtonPresses;

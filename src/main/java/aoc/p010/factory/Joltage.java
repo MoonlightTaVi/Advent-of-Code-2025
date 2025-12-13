@@ -38,6 +38,17 @@ public class Joltage {
     }
     
     
+    public int highestValue() {
+        int max = 0;
+        for (int n : value) {
+            if (n > max) {
+                max = n;
+            }
+        }
+        return max;
+    }
+    
+    
     private void findRemainder() {
         int sum = 0;
         for (int i = 0; i < value.length; i++) {
