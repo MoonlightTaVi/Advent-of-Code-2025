@@ -30,4 +30,12 @@ public class IndicatorsTest {
         Assertions.assertEquals("3", btn0);
         Assertions.assertEquals(6, buttonCount);
     }
+    
+    @Test
+    public void bitIndicatorsTest() {
+        Machine machine = reader.getMachine(0);
+        int state = machine.getStartedState();
+        
+        Assertions.assertEquals(6, state);
+    }
 }

@@ -10,5 +10,16 @@ public class Machine {
     public final String[] buttons;
     
     
-    
+    public int getStartedState() {
+        int result = 0;
+        char[] arr = startedState.toCharArray();
+        int start = arr.length - 1;
+        
+        for (int i = start; i >= 0; i--) {
+            int unit = arr[i] == '#' ? 1 : 0;
+            result += unit * Math.pow(2, i);
+        }
+        
+        return result;
+    }
 }
