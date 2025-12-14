@@ -39,21 +39,7 @@ public class Elf {
     public long tryToFixEmJoltages() {
         long allButtonPresses = 0;
         
-        int len = factory.size();
-        for (int i = 0; i < len; i++) {
-            StartedMachine machine = factory.getStartedMachine(i);
-            
-            while (machine.hasNotFinished()) {
-                int comboId = machine.getPrioritizedCombinationId();
-                boolean[] buttonStates = machine.getCombination(comboId);
-                int countButtons = machine.countButtons(buttonStates);
-                
-                long[] combo = machine.combinations[comboId];
-                long diff = machine.apply(combo);
-                
-                allButtonPresses += diff * countButtons;
-            }
-        }
+        
         
         return allButtonPresses;
     }
