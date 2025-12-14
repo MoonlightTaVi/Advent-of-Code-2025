@@ -5,7 +5,13 @@ import java.util.Arrays;
 public class StartedMachine {
     final long[] requiredJoltage;
     final int[][] buttons;
+    
+    
+    final long[] pressed;
+    final long[] constraints;
 
+    
+    
     public StartedMachine(String joltage, String[] buttonsStr) {
         requiredJoltage = Arrays.stream(joltage.split(","))
                 .mapToLong(Long::valueOf)
@@ -16,6 +22,22 @@ public class StartedMachine {
                     .mapToInt(Integer::valueOf)
                     .toArray();
         }
+        pressed = new long[buttonsStr.length];
+        constraints = initConstraints();
+    }
+    
+    private long[] initConstraints() {
+        long[] maxPresses = new long[buttons.length];
+        for (int i = 0; i < buttons.length; i++) {
+            long lowestValue = Integer.MAX_VALUE;
+            for (int id : buttons[i]) {
+                if (requiredJoltage[id] < lowestValue) {
+                    lowestValue = requiredJoltage[id];
+                }
+            }
+            maxPresses[i] = lowestValue;
+        }
+        return maxPresses;
     }
     
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import aoc.p010.Elf;
 import aoc.p010.MachineReader;
 import aoc.p010.factory.Machine;
+import aoc.p010.factory.Matrix;
 
 
 /**
@@ -119,5 +120,25 @@ public class MachineTest {
         long totalPresses = elf.tryToFixEmJoltages();
         
         Assertions.assertEquals(33, totalPresses);
+    }
+    
+    static int[][] testMatrix = {
+            {1, 3, 1, 9},
+            {1, 1, -1, 1},
+            {3, 11, 5, 35}
+    };
+    
+    static int[][] testMatrixReduced = {
+            {1, 3, 1, 9},
+            {0, -2, -2, -8},
+            {0, 0, 0, 0}
+    };
+    
+    @Test
+    public void matrixTest() {
+        Matrix matrix = new Matrix(testMatrix);
+        int[][] rowEchelon = matrix.eliminatedByGauss();
+        
+        Assertions.assertArrayEquals(testMatrixReduced, rowEchelon);
     }
 }
