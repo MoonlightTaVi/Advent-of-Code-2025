@@ -39,8 +39,17 @@ public class Elf {
     public long tryToFixEmJoltages() {
         long allButtonPresses = 0;
         
-        
+        int len = factory.size();
+        for (int i = 0; i < len; i++) {
+            StartedMachine machine = factory.getStartedMachine(i);
+            allButtonPresses += tryToFixHImJoltage(machine);
+        }
         
         return allButtonPresses;
+    }
+    
+    
+    public long tryToFixHImJoltage(StartedMachine machine) {
+        return 0;
     }
 }

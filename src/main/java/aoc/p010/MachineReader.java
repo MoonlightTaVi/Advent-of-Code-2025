@@ -24,6 +24,14 @@ public class MachineReader extends FileReader {
         return new Machine(indicators, buttons);
     }
     
+    public StartedMachine getStartedMachine(int id) {
+        String line = super.lines[id];
+        String[] buttons = getButtons(line);
+        String joltage = getJoltage(line);
+        
+        return new StartedMachine(joltage, buttons);
+    }
+    
     public int size() {
         return super.lines.length;
     }
