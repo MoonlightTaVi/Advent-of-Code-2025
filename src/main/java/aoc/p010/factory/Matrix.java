@@ -40,6 +40,7 @@ public class Matrix {
     
     public int[][] eliminatedByGauss() {
         int size = Math.min(n, m);
+        
         print();
         
         for (int i = 0; i < size; i++) {
@@ -49,13 +50,63 @@ public class Matrix {
                 continue;
             }
             
-            // Make all other rows have 0 at the first column
+            // Make all other rows have 0 at the i column
             applyReduction(i);
+            
             print();
         }
         
         return table;
     }
+    
+    public int[][] finalizeEchelone() {
+        int size = Math.min(n - 1, m);
+        for (int i = size; i > 0; i--) {
+            // Check if the row is already at final form
+            if (checkRREF(i, i)) {
+                continue;
+            }
+            
+            // Set the lead row to 1 by changing all of the row values
+            int lead = table[i][i];
+            for (int j = i; j < m; j++) {
+                if (table[i][j] % lead != 0) {
+                    throw matrixIncompatible(
+                            "Not dealing with integers (at final form)"
+                            );
+                }
+                table[i][j] /= lead;
+            }
+            
+            // Set the element above this lead element to 0
+            //  by changing all of the values of the row above
+            int ratio = table[i - 1][i];
+            for (int j = i; j < m; j++) {
+                table[i - 1][j] -= table[i][j] * ratio;
+            }
+            
+            print();
+        }
+        
+        return table;
+    }
+    
+    
+    private boolean checkRREF(int row, int column) {
+        if (table[row][column - 1] != 0) {
+            throw matrixIncompatible(
+                    "This element is not leading at all!"
+                    );
+        }
+        
+        // Just skip to next
+        if (table[row][column] == 0) {
+            return true;
+        }
+        
+        return table[row][column] == 1 && table[row - 1][column] == 0;
+    }
+    
     
     private boolean swapRows(int start) {
         boolean isSwappable = false;

@@ -134,11 +134,20 @@ public class MachineTest {
             {0, 0, 0, 0}
     };
     
+    static int[][] testMatrixFinal = {
+            {1, 0, -2, -3},
+            {0, 1, 1, 4},
+            {0, 0, 0, 0}
+    };
+    
     @Test
     public void matrixTest() {
         Matrix matrix = new Matrix(testMatrix);
-        int[][] rowEchelon = matrix.eliminatedByGauss();
         
+        int[][] rowEchelon = matrix.eliminatedByGauss();
         Assertions.assertArrayEquals(testMatrixReduced, rowEchelon);
+        
+        int[][] rowEchelonFinal = matrix.finalizeEchelone();
+        Assertions.assertArrayEquals(testMatrixFinal, rowEchelonFinal);
     }
 }
