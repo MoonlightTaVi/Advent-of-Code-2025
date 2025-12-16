@@ -2,21 +2,40 @@ package aoc.p010.matrix;
 
 import aoc.p010.factory.StartedMachine;
 
+
+/**
+ * Matrix utility for the linear algebra equalities.
+ */
 public class Matrix {
+    
+    /** Prints the matrix to the console when it changes. */
+    public final boolean debug = true;
+    
     /** Number of columns. */
     public final int m;
     /** Number of rows. */
     public final int n;
 
+    /** Table of the matrix. */
     public final int[][] table;
     
     
+    /**
+     * Constructs a matrix from a 2-dimensional array. <br>
+     * For testing purposes.
+     * @param matrix 2D array of integers. Each row must have
+     * the same length.
+     */
     public Matrix(int[][] matrix) {
         table = matrix;
         n = table.length;
         m = table[0].length;
     }
     
+    /**
+     * Constructs a matrix from a machine data object.
+     * @param machine
+     */
     public Matrix(StartedMachine machine) {
         // Columns (for each button)
         // Add 1 column for the required joltage of the row
@@ -39,7 +58,16 @@ public class Matrix {
     }
     
     
+    /**
+     * Prints the matrix to the console. <br>
+     * Debug mode must be set to true.
+     * @see #debug
+     */
     public void print() {
+        if (!debug) {
+            return;
+        }
+        
         for (int[] row : table) {
             for (int element : row) {
                 System.out.printf("%d ", element);
@@ -50,6 +78,23 @@ public class Matrix {
     }
     
     
+    /**
+     * Transforms this matrix to its final RREF form
+     * and returns the resulting 2D array.
+     * @return 2D integer array of the RREF of the matrix.
+     */
+    public int[][] build() {
+        matrixToREF();
+        matrixToRREF();
+        
+        return table;
+    }
+    
+    
+    /**
+     * Transforms this matrix into the raw echelon form. <br>
+     * For testing purposes only, use build() instead.
+     */
     public void matrixToREF() {
         print();
         
@@ -69,6 +114,10 @@ public class Matrix {
         }
     }
     
+    /**
+     * Transforms this matrix into the reduced raw echelon form. <br>
+     * For testing purposes only, use build() instead.
+     */
     public void matrixToRREF() {
         for (int row = n - 1; row > 0; row--) {
             int column = findLeadingColumn(row);
@@ -93,6 +142,12 @@ public class Matrix {
     }
     
     
+    /**
+     * Finds the first non-zero element in a row and returns the index
+     * of the corresponding column.
+     * @param row
+     * @return The ID of the leading column of the row.
+     */
     private int findLeadingColumn(int row) {
         // Find the leading (pivot) column
         int column = 0;
@@ -103,6 +158,13 @@ public class Matrix {
         return column;
     }
     
+    /**
+     * Checks if this row can (and should) be applied a row reduction.
+     * @param row Row to test against conditions of RREF.
+     * @param column Leading column of this row.
+     * @return True if this row already corresponds to the RREF
+     * conditions and must be skipped.
+     */
     private boolean checkRREF(int row, int column) {
         // Out of bounds:
         //  This row contains only '0's, skip it
@@ -113,20 +175,30 @@ public class Matrix {
         return table[row][column] == 1 && table[row - 1][column] == 0;
     }
     
-    private boolean swapRows(int leadingColumn) {
+    /**
+     * Checks all the rows in the table and makes it so the table
+     * has a non-zero element at position [start][start] by swapping rows
+     * (if it is necessary and possible).
+     * @param start The position of the first leading element 
+     * in the table during the current iteration of REF.
+     * @return True if the rows can be applied REF transformation
+     * during the current iteration. If it's false, must skip 
+     * to the next iteration.
+     */
+    private boolean swapRows(int start) {
         boolean isSwappable = false;
-        for (int i = leadingColumn; i < n; i++) {
-            if (table[i][leadingColumn] == 0) {
+        for (int i = start; i < n; i++) {
+            if (table[i][start] == 0) {
                 continue;
             }
             
             isSwappable = true;
-            if (i == leadingColumn) {
+            if (i == start) {
                 break;
             }
             
-            int[] temp = table[leadingColumn];
-            table[leadingColumn] = table[i];
+            int[] temp = table[start];
+            table[start] = table[i];
             table[i] = temp;
             break;
         }
@@ -134,6 +206,16 @@ public class Matrix {
         return isSwappable;
     }
     
+    /**
+     * Subtracts one row from another. As the result, the first row
+     * will have 0 at its {@code leadingColumn} position (i.e. above
+     * the leading element of the second row). <br>
+     * Part of the RREF transformation algorithm.
+     * @param minuend Row to subtract from.
+     * @param subtrahend Row to subtract from the minuend.
+     * @param leadingColumn The leading element position in the
+     * subtrahend row.
+     */
     private void subtract(
             int[] minuend, 
             int[] subtrahend, 
@@ -155,6 +237,13 @@ public class Matrix {
         }
     }
     
+    /**
+     * Divides every element of this row by the leading element
+     * of this row. <br>
+     * As the result, the leading element becomes 1.
+     * @param row
+     * @param leadingColumn
+     */
     private void divide(int[] row, int leadingColumn) {
         int lead = row[leadingColumn];
         for (int j = leadingColumn; j < m; j++) {
@@ -170,6 +259,11 @@ public class Matrix {
     }
     
     
+    /**
+     * Returns a template for matrix exception.
+     * @param message Specific message about the exception.
+     * @return
+     */
     private IllegalStateException matrixIncompatible(String message) {
         return new IllegalStateException(
                 String.format("The matrix is incompatible: %s.", message)
