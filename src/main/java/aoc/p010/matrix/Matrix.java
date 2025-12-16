@@ -1,13 +1,14 @@
-package aoc.p010.factory;
+package aoc.p010.matrix;
 
+import aoc.p010.factory.StartedMachine;
 
 public class Matrix {
     /** Number of columns. */
-    final int m;
+    public final int m;
     /** Number of rows. */
-    final int n;
+    public final int n;
 
-    final int[][] table;
+    public final int[][] table;
     
     
     public Matrix(int[][] matrix) {
@@ -26,7 +27,7 @@ public class Matrix {
         table = new int[n][];
         for (int i = 0; i < n; i++) {
             table[i] = new int[m];
-            table[i][m - 1] = (int) machine.requiredJoltage[n];
+            table[i][m - 1] = (int) machine.requiredJoltage[i];
         }
         
         for (int i = 0; i < m - 1; i++) {
@@ -38,7 +39,7 @@ public class Matrix {
     }
     
     
-    public int[][] eliminatedByGauss() {
+    public void matrixToREF() {
         int size = Math.min(n, m);
         
         print();
@@ -55,55 +56,62 @@ public class Matrix {
             
             print();
         }
-        
-        return table;
     }
     
-    public int[][] finalizeEchelone() {
-        int size = Math.min(n - 1, m);
-        for (int i = size; i > 0; i--) {
+    public void matrixToRREF() {
+        for (int row = n - 1; row > 0; row--) {
+            int column = findLeadingColumn(row);
             // Check if the row is already at final form
-            if (checkRREF(i, i)) {
+            if (checkRREF(row, column)) {
                 continue;
             }
             
             // Set the lead row to 1 by changing all of the row values
-            int lead = table[i][i];
-            for (int j = i; j < m; j++) {
-                if (table[i][j] % lead != 0) {
-                    throw matrixIncompatible(
-                            "Not dealing with integers (at final form)"
-                            );
+            int lead = table[row][column];
+            // Division by 1 means nothing, skip
+            if (lead != 1) {
+                for (int j = lead; j < m; j++) {
+                    if (table[row][j] % lead != 0) {
+                        throw matrixIncompatible(
+                                "Not dealing with integers (at final form)"
+                                );
+                    }
+                    table[row][j] /= lead;
                 }
-                table[i][j] /= lead;
             }
             
-            // Set the element above this lead element to 0
-            //  by changing all of the values of the row above
-            int ratio = table[i - 1][i];
-            for (int j = i; j < m; j++) {
-                table[i - 1][j] -= table[i][j] * ratio;
+            /* Set the element above this lead element to 0
+                by changing all of the values of the row above
+                (subtract this row (multiplied by ratio) 
+                 from the row above)
+             */
+            int ratio = table[row - 1][row];
+            for (int j = row; j < m; j++) {
+                table[row - 1][j] -= table[row][j] * ratio;
             }
             
             print();
         }
+    }
+    
+    
+    private int findLeadingColumn(int row) {
+        // Find the leading (pivot) column
+        int column = 0;
+        while (column < m && table[row][column] == 0) {
+            column++;
+        }
         
-        return table;
+        return column;
     }
     
     
     private boolean checkRREF(int row, int column) {
-        if (table[row][column - 1] != 0) {
-            throw matrixIncompatible(
-                    "This element is not leading at all!"
-                    );
-        }
-        
-        // Just skip to next
-        if (table[row][column] == 0) {
+        // This row contains only '0's, skip it
+        if (column == m) {
             return true;
         }
-        
+        // Return true if it already corresponds to RREF (skip it)
         return table[row][column] == 1 && table[row - 1][column] == 0;
     }
     
