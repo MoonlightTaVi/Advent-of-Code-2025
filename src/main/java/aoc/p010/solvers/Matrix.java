@@ -92,13 +92,16 @@ public class Matrix {
     
     
     /**
-     * Transforms this matrix into the raw echelon form. <br>
+     * Transforms this matrix into the row echelon form. <br>
      * For testing purposes only, use build() instead.
      */
     public void matrixToREF() {
         print();
         
-        for (int i = 0; i < n; i++) {
+        // In case there are more rows than columns
+        int end = Math.min(n, m);
+        
+        for (int i = 0; i < end; i++) {
             // Set the first element of the first row to != 0 (swap)
             // Skip if not possible
             if (!swapRows(i)) {
@@ -121,6 +124,7 @@ public class Matrix {
     public void matrixToRREF() {
         for (int row = n - 1; row > 0; row--) {
             int column = findLeadingColumn(row);
+            
             // Check if the row is already at final form
             if (checkRREF(row, column)) {
                 continue;
@@ -133,7 +137,7 @@ public class Matrix {
                 divide(table[row], column);
             }
             
-            // Set the element above this lead element to 0
+            // Set the element above this leading element to 0
             // Change the other elements in the row above respectively
             subtract(table[row - 1], table[row], column);
             
@@ -151,9 +155,11 @@ public class Matrix {
     private int findLeadingColumn(int row) {
         // Find the leading (pivot) column
         int column = 0;
+        
         while (column < m && table[row][column] == 0) {
             column++;
         }
+        
         // Returns an out-of-bounds index if there're only zeroes
         return column;
     }
@@ -166,11 +172,11 @@ public class Matrix {
      * conditions and must be skipped.
      */
     private boolean checkRREF(int row, int column) {
-        // Out of bounds:
-        //  This row contains only '0's, skip it
+        // Out of bounds: skip
         if (column == m) {
             return true;
         }
+        
         // Return true if it already corresponds to RREF (skip it)
         return table[row][column] == 1 && table[row - 1][column] == 0;
     }
