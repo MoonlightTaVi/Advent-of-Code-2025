@@ -1,0 +1,59 @@
+package aoc.p010.matrix;
+
+import aoc.p010.factory.StartedMachine;
+
+public class MatrixSolver {
+    
+    /** Number of columns. */
+    final int m;
+    /** Number of rows. */
+    final int n;
+
+    public final int[] minConstraints;
+    public final int[] maxConstraints;
+    
+    public final int[][] matrix;
+    
+    public final int[] combined;
+    public final boolean[] solved;
+    
+    
+    public MatrixSolver(StartedMachine machine, Matrix matrix) {
+        minConstraints = new int[machine.buttons.length];
+        maxConstraints = new int[machine.buttons.length];
+        
+        for (int i = 0; i < machine.buttons.length; i++) {
+            maxConstraints[i] = (int) machine.constraints[i];
+        }
+        
+        this.matrix = matrix.table;
+        n = matrix.n;
+        m = matrix.m;
+        
+        solved = new boolean[m - 1];
+        combined = initCombined();
+    }
+    
+    
+    private int[] initCombined() {
+        int[] combined = new int[m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int temp = matrix[i][j];
+                if (j < m - 1) {
+                    temp *= -1;
+                }
+                combined[j] += temp;
+            }
+        }
+        
+        for (int j = 0; j < m - 1; j++) {
+            if (combined[j] == -1) {
+                combined[j] = 0;
+                solved[j] = true;
+            }
+        }
+        
+        return combined;
+    }
+}

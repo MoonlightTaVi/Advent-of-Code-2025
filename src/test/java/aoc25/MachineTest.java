@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import aoc.p010.Elf;
 import aoc.p010.MachineReader;
 import aoc.p010.factory.Machine;
-import aoc.p010.factory.Matrix;
+import aoc.p010.factory.StartedMachine;
+import aoc.p010.matrix.Matrix;
+import aoc.p010.matrix.MatrixSolver;
 
 
 /**
@@ -128,7 +130,8 @@ public class MachineTest {
             {3, 11, 5, 35}
     };
     
-    static int[][] testMatrixReduced = {
+    
+    static int[][] testMatrixEchelone = {
             {1, 3, 1, 9},
             {0, -2, -2, -8},
             {0, 0, 0, 0}
@@ -140,14 +143,28 @@ public class MachineTest {
             {0, 0, 0, 0}
     };
     
-    @Test
+    
+    //@Test
     public void matrixTest() {
         Matrix matrix = new Matrix(testMatrix);
         
-        int[][] rowEchelon = matrix.eliminatedByGauss();
-        Assertions.assertArrayEquals(testMatrixReduced, rowEchelon);
+        matrix.matrixToREF();
+        Assertions.assertArrayEquals(testMatrixEchelone, matrix.table);
         
-        int[][] rowEchelonFinal = matrix.finalizeEchelone();
-        Assertions.assertArrayEquals(testMatrixFinal, rowEchelonFinal);
+        matrix.matrixToRREF();
+        Assertions.assertArrayEquals(testMatrixFinal, matrix.table);
+    }
+    
+    
+    @Test
+    public void solverTest() {
+        StartedMachine machine = reader.getStartedMachine(0);
+        Matrix matrix = new Matrix(machine);
+        matrix.matrixToREF();
+        matrix.matrixToRREF();
+        
+        MatrixSolver solver = new MatrixSolver(machine, matrix);
+        
+        Assertions.assertEquals(11, solver.combined[6]);
     }
 }

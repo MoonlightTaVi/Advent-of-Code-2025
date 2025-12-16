@@ -3,12 +3,12 @@ package aoc.p010.factory;
 import java.util.Arrays;
 
 public class StartedMachine {
-    final long[] requiredJoltage;
-    final int[][] buttons;
+    public final long[] requiredJoltage;
+    public final int[][] buttons;
     
-    
+
+    public final long[] constraints;
     final long[] pressed;
-    final long[] constraints;
 
     
     
