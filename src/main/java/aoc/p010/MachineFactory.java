@@ -9,9 +9,9 @@ import aoc.FileReader;
 import aoc.p010.factory.*;
 
 
-public class MachineReader extends FileReader {
+public class MachineFactory extends FileReader {
 
-    public MachineReader() {
+    public MachineFactory() {
         super.read("010.txt");
     }
     
@@ -20,16 +20,18 @@ public class MachineReader extends FileReader {
         String line = super.lines[id];
         String indicators = getIndicators(line);
         String[] buttons = getButtons(line);
+        String joltage = getJoltage(line);
         
-        return new Machine(indicators, buttons);
+        return new IdleMachine(indicators, buttons, joltage);
     }
     
-    public StartedMachine getStartedMachine(int id) {
+    public Machine getStartedMachine(int id) {
         String line = super.lines[id];
+        String indicators = getIndicators(line);
         String[] buttons = getButtons(line);
         String joltage = getJoltage(line);
         
-        return new StartedMachine(joltage, buttons);
+        return new StartedMachine(indicators, buttons, joltage);
     }
     
     public int size() {

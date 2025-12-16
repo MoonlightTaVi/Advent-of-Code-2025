@@ -1,4 +1,4 @@
-package aoc.p010.matrix;
+package aoc.p010.solvers;
 
 import aoc.p010.factory.StartedMachine;
 
@@ -22,13 +22,15 @@ public class MatrixSolver {
     public final boolean[] solved;
     
     
-    public MatrixSolver(StartedMachine machine, Matrix matrix) {
+    public MatrixSolver(StartedMachine machine) {
         minConstraints = new int[machine.buttons.length];
         maxConstraints = new int[machine.buttons.length];
         
         for (int i = 0; i < machine.buttons.length; i++) {
             maxConstraints[i] = (int) machine.constraints[i];
         }
+        
+        Matrix matrix = new Matrix(machine);
         
         this.matrix = matrix.build();
         n = matrix.n;

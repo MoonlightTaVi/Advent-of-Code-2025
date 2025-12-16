@@ -1,4 +1,4 @@
-package aoc.p010.matrix;
+package aoc.p010.solvers;
 
 import aoc.p010.factory.StartedMachine;
 

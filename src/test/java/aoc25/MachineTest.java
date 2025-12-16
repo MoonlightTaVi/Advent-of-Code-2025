@@ -5,11 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import aoc.p010.Elf;
-import aoc.p010.MachineReader;
-import aoc.p010.factory.Machine;
-import aoc.p010.factory.StartedMachine;
-import aoc.p010.matrix.Matrix;
-import aoc.p010.matrix.MatrixSolver;
+import aoc.p010.MachineFactory;
+import aoc.p010.factory.*;
+import aoc.p010.solvers.*;
 
 
 /**
@@ -17,22 +15,24 @@ import aoc.p010.matrix.MatrixSolver;
  */
 public class MachineTest {
     
-    static MachineReader reader;
+    static MachineFactory reader;
     
     
     @BeforeAll
     public static void setup() {
-        reader = new MachineReader();
+        reader = new MachineFactory();
     }
     
     
     @Test
     public void parserTest() {
-        Machine machine = reader.getMachine(0);
+        String line = reader.lines[0];
         
-        String indicators = machine.startedState;
-        String btn0 = machine.buttons[0];
-        int buttonCount = machine.buttons.length;
+        String indicators = reader.getIndicators(line);
+        String[] buttons = reader.getButtons(line);
+        String btn0 = buttons[0];
+        
+        int buttonCount = buttons.length;
         
         Assertions.assertEquals(".##.", indicators);
         Assertions.assertEquals("3", btn0);
@@ -41,18 +41,21 @@ public class MachineTest {
     
     @Test
     public void bitIndicatorsTest() {
-        Machine machine = reader.getMachine(0);
-        int state = machine.getStartedState();
+        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        BitmaskSolver solver = machine.solver;
+        
+        int state = solver.finalStateMask;
         
         Assertions.assertEquals(6, state);
     }
     
     @Test
     public void bitButtonTest() {
-        Machine machine = reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        BitmaskSolver solver = machine.solver;
         
-        int btn0 = machine.getButton(0);
-        int btn1 = machine.getButton(1);
+        int btn0 = solver.getButton(0);
+        int btn1 = solver.getButton(1);
         
         Assertions.assertEquals(8, btn0);
         Assertions.assertEquals(10, btn1);
@@ -60,11 +63,12 @@ public class MachineTest {
     
     @Test
     public void bitComboTest() {
-        Machine machine = reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        BitmaskSolver solver = machine.solver;
         
-        int count = machine.getCombinations();
+        int count = solver.getCombinations();
         int len = machine.buttons.length;
-        boolean[] combo = machine.getCombination(5);
+        boolean[] combo = solver.getCombination(5);
         
         boolean[] expected = new boolean[len];
         expected[0] = true;
@@ -76,12 +80,13 @@ public class MachineTest {
     
     @Test
     public void bitLastComboTest() {
-        Machine machine = reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        BitmaskSolver solver = machine.solver;
         
         // Combinations start from 0, and the 'count' is exclusive
-        int count = machine.getCombinations();
+        int count = solver.getCombinations();
         int len = machine.buttons.length;
-        boolean[] combo = machine.getCombination(count - 1);
+        boolean[] combo = solver.getCombination(count - 1);
         
         boolean[] expected = new boolean[len];
         for (int i = 0; i < len; i++) {
@@ -95,13 +100,14 @@ public class MachineTest {
     
     @Test
     public void buttonsPressedTest() {
-        Machine machine = reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        BitmaskSolver solver = machine.solver;
         
         // Press 4th and 5th buttons to start the machine
-        int btn4 = machine.getButton(4);
-        int btn5 = machine.getButton(5);
+        int btn4 = solver.getButton(4);
+        int btn5 = solver.getButton(5);
         
-        boolean isStarted = machine.press(btn4, btn5);
+        boolean isStarted = solver.press(btn4, btn5);
         
         Assertions.assertTrue(isStarted);
     }
@@ -158,12 +164,8 @@ public class MachineTest {
     
     @Test
     public void solverTest() {
-        StartedMachine machine = reader.getStartedMachine(0);
-        Matrix matrix = new Matrix(machine);
-        //matrix.matrixToREF();
-        //matrix.matrixToRREF();
-        
-        MatrixSolver solver = new MatrixSolver(machine, matrix);
+        StartedMachine machine = (StartedMachine) reader.getStartedMachine(0);
+        MatrixSolver solver = machine.solver;
         
         Assertions.assertEquals(11, solver.combined[6]);
     }

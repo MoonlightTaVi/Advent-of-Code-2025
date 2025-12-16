@@ -11,7 +11,7 @@ public class Main {
     static long pressesP1 = 527;
 
     public static void main(String[] args) {
-        MachineReader factory = new MachineReader();
+        MachineFactory factory = new MachineFactory();
         Elf elfWorker = new Elf(factory);
         
         long resultP1 = elfWorker.tryToStartEmMachines();
