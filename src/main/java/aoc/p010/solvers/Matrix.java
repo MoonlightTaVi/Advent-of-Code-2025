@@ -241,8 +241,15 @@ public class Matrix {
         
         // The division should not have a remainder
         if (minuend[leadingColumn] % subtrahend[leadingColumn] != 0) {
+            String message = "Not dealing with Integers (subtraction error)";
+            String details = String.format(
+                    "%d / %d at column %d", 
+                    minuend[leadingColumn], 
+                    subtrahend[leadingColumn],
+                    leadingColumn
+                            );
             throw matrixIncompatible(
-                    "Not dealing with Integers (subtraction error)"
+                    String.format("%s: %s", message, details)
                     );
         }
         

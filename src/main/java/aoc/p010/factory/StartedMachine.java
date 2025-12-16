@@ -21,8 +21,7 @@ public class StartedMachine extends Machine {
     
     @Override
     public long solve() {
-        // TODO Auto-generated method stub
-        return 0;
+        return solver.solve();
     }
     
 }

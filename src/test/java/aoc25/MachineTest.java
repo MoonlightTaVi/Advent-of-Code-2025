@@ -167,6 +167,13 @@ public class MachineTest {
         StartedMachine machine = (StartedMachine) reader.getStartedMachine(0);
         MatrixSolver solver = machine.solver;
         
+        // Just an initial test
         Assertions.assertEquals(11, solver.combined[6]);
+        
+        // The actual test
+        long result = solver.solve();
+        long expected = 10;
+        
+        Assertions.assertEquals(expected, result);
     }
 }

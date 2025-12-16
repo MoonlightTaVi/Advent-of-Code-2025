@@ -27,6 +27,9 @@ public class Elf {
         
         int len = factory.size();
         for (int i = 0; i < len; i++) {
+            int percentage = (int) ((float) i * 100 / len );
+            System.out.printf("%d/%d [%d%%]%n", i, len, percentage);
+            
             Machine machine = factory.getStartedMachine(i);
             allButtonPresses += machine.solve();
         }
