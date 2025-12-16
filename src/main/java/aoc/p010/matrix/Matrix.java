@@ -39,12 +39,21 @@ public class Matrix {
     }
     
     
+    public void print() {
+        for (int[] row : table) {
+            for (int element : row) {
+                System.out.printf("%d ", element);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+    
+    
     public void matrixToREF() {
-        int size = Math.min(n, m);
-        
         print();
         
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < n; i++) {
             // Set the first element of the first row to != 0 (swap)
             // Skip if not possible
             if (!swapRows(i)) {
@@ -52,7 +61,9 @@ public class Matrix {
             }
             
             // Make all other rows have 0 at the i column
-            applyReduction(i);
+            for (int j = i + 1; j < n; j++) {
+                subtract(table[j], table[i], i);
+            }
             
             print();
         }
@@ -65,30 +76,17 @@ public class Matrix {
             if (checkRREF(row, column)) {
                 continue;
             }
-            
-            // Set the lead row to 1 by changing all of the row values
+
             int lead = table[row][column];
-            // Division by 1 means nothing, skip
+            // Set the lead row to 1 by changing all of the row values
+            // Division by 1 means nothing, so just skip it
             if (lead != 1) {
-                for (int j = lead; j < m; j++) {
-                    if (table[row][j] % lead != 0) {
-                        throw matrixIncompatible(
-                                "Not dealing with integers (at final form)"
-                                );
-                    }
-                    table[row][j] /= lead;
-                }
+                divide(table[row], column);
             }
             
-            /* Set the element above this lead element to 0
-                by changing all of the values of the row above
-                (subtract this row (multiplied by ratio) 
-                 from the row above)
-             */
-            int ratio = table[row - 1][row];
-            for (int j = row; j < m; j++) {
-                table[row - 1][j] -= table[row][j] * ratio;
-            }
+            // Set the element above this lead element to 0
+            // Change the other elements in the row above respectively
+            subtract(table[row - 1], table[row], column);
             
             print();
         }
@@ -101,13 +99,13 @@ public class Matrix {
         while (column < m && table[row][column] == 0) {
             column++;
         }
-        
+        // Returns an out-of-bounds index if there're only zeroes
         return column;
     }
     
-    
     private boolean checkRREF(int row, int column) {
-        // This row contains only '0's, skip it
+        // Out of bounds:
+        //  This row contains only '0's, skip it
         if (column == m) {
             return true;
         }
@@ -115,21 +113,20 @@ public class Matrix {
         return table[row][column] == 1 && table[row - 1][column] == 0;
     }
     
-    
-    private boolean swapRows(int start) {
+    private boolean swapRows(int leadingColumn) {
         boolean isSwappable = false;
-        for (int i = start; i < n; i++) {
-            if (table[i][start] == 0) {
+        for (int i = leadingColumn; i < n; i++) {
+            if (table[i][leadingColumn] == 0) {
                 continue;
             }
             
             isSwappable = true;
-            if (i == start) {
+            if (i == leadingColumn) {
                 break;
             }
             
-            int[] temp = table[start];
-            table[start] = table[i];
+            int[] temp = table[leadingColumn];
+            table[leadingColumn] = table[i];
             table[i] = temp;
             break;
         }
@@ -137,25 +134,38 @@ public class Matrix {
         return isSwappable;
     }
     
-    private void applyReduction(int start) {
-        int origin = table[start][start];
-        for (int i = start + 1; i < n; i++) {
-            int ratio = table[i][start] / origin;
+    private void subtract(
+            int[] minuend, 
+            int[] subtrahend, 
+            int leadingColumn
+            ) {
+        
+        // The division should not have a remainder
+        if (minuend[leadingColumn] % subtrahend[leadingColumn] != 0) {
+            throw matrixIncompatible(
+                    "Not dealing with Integers (subtraction error)"
+                    );
+        }
+        
+        int len = minuend.length;
+        int ratio = minuend[leadingColumn] / subtrahend[leadingColumn];
+        
+        for (int i = leadingColumn; i < len; i++) {
+            minuend[i] -= ratio * subtrahend[i];
+        }
+    }
+    
+    private void divide(int[] row, int leadingColumn) {
+        int lead = row[leadingColumn];
+        for (int j = leadingColumn; j < m; j++) {
             
-            // Skip useless iteration...
-            if (ratio == 0) {
-                continue;
+            if (row[j] % lead != 0) {
+                throw matrixIncompatible(
+                        "Not dealing with integers (division error)"
+                        );
             }
             
-            // We should not deal with floating point numbers...
-            int doubleCheck = ratio * origin;
-            if (doubleCheck != table[i][start]) {
-                throw matrixIncompatible("Not dealing with Integers");
-            }
-            
-            for (int j = start; j < m; j++) {
-                table[i][j] -= table[start][j] * ratio;
-            }
+            row[j] /= lead;
         }
     }
     
@@ -164,17 +174,5 @@ public class Matrix {
         return new IllegalStateException(
                 String.format("The matrix is incompatible: %s.", message)
                 );
-    }
-    
-    
-    
-    public void print() {
-        for (int[] row : table) {
-            for (int element : row) {
-                System.out.printf("%d ", element);
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 }

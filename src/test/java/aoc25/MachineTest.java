@@ -144,7 +144,7 @@ public class MachineTest {
     };
     
     
-    //@Test
+    @Test
     public void matrixTest() {
         Matrix matrix = new Matrix(testMatrix);
         
