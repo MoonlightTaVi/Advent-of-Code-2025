@@ -9,7 +9,7 @@ import aoc.p010.factory.StartedMachine;
 public class Matrix {
     
     /** Prints the matrix to the console when it changes. */
-    public final boolean debug = true;
+    public final boolean debug = false;
     
     /** Number of columns. */
     public final int m;

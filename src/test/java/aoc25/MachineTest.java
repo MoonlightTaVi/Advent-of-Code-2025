@@ -160,8 +160,8 @@ public class MachineTest {
     public void solverTest() {
         StartedMachine machine = reader.getStartedMachine(0);
         Matrix matrix = new Matrix(machine);
-        matrix.matrixToREF();
-        matrix.matrixToRREF();
+        //matrix.matrixToREF();
+        //matrix.matrixToRREF();
         
         MatrixSolver solver = new MatrixSolver(machine, matrix);
         

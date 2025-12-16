@@ -2,6 +2,10 @@ package aoc.p010.matrix;
 
 import aoc.p010.factory.StartedMachine;
 
+
+/**
+ * 
+ */
 public class MatrixSolver {
     
     /** Number of columns. */
@@ -26,7 +30,7 @@ public class MatrixSolver {
             maxConstraints[i] = (int) machine.constraints[i];
         }
         
-        this.matrix = matrix.table;
+        this.matrix = matrix.build();
         n = matrix.n;
         m = matrix.m;
         
@@ -37,19 +41,21 @@ public class MatrixSolver {
     
     private int[] initCombined() {
         int[] combined = new int[m];
+        
+        // Compute the equalities of the free variables
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                int temp = matrix[i][j];
-                if (j < m - 1) {
-                    temp *= -1;
-                }
-                combined[j] += temp;
+                combined[j] += matrix[i][j];
             }
         }
         
         for (int j = 0; j < m - 1; j++) {
-            if (combined[j] == -1) {
-                combined[j] = 0;
+            // Convert
+            combined[j] *= -1;
+            combined[j] += 1;
+            
+            // Pivot rows are solved by default
+            if (combined[j] == 0) {
                 solved[j] = true;
             }
         }
