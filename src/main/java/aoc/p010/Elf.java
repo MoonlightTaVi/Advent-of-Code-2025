@@ -27,8 +27,8 @@ public class Elf {
         
         int len = factory.size();
         for (int i = 0; i < len; i++) {
-            //Machine machine = factory.getStartedMachine(i);
-            //allButtonPresses += machine.solve();
+            Machine machine = factory.getStartedMachine(i);
+            allButtonPresses += machine.solve();
         }
         
         return allButtonPresses;

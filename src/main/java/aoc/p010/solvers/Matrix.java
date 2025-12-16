@@ -9,7 +9,7 @@ import aoc.p010.factory.StartedMachine;
 public class Matrix {
     
     /** Prints the matrix to the console when it changes. */
-    public final boolean debug = false;
+    public final boolean debug = true;
     
     /** Number of columns. */
     public final int m;
@@ -186,17 +186,28 @@ public class Matrix {
      * to the next iteration.
      */
     private boolean swapRows(int start) {
+        // Reached the limit (by columns), cannot swap
+        if (start >= m) {
+            return false;
+        }
+        
         boolean isSwappable = false;
+        
         for (int i = start; i < n; i++) {
+            // Not zero, seek further
             if (table[i][start] == 0) {
                 continue;
             }
             
+            // Success
             isSwappable = true;
+            
+            // Need not to swap
             if (i == start) {
                 break;
             }
             
+            // Swap
             int[] temp = table[start];
             table[start] = table[i];
             table[i] = temp;
