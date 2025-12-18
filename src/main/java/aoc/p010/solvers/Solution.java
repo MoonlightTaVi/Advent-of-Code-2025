@@ -10,6 +10,8 @@ public class Solution implements Iterable<int[]> {
     final int varsCount;
     final int[] unknownRhs;
     
+    final int[] maxConstrants;
+    
     int knownRhs;
     
 
@@ -17,25 +19,58 @@ public class Solution implements Iterable<int[]> {
         solver = forSolver;
         varsCount = solver.count;
         unknownRhs = new int[forSolver.m];
+        
+        maxConstrants = solver.initialMaxConstraints;
+        
         computeEquality();
     }
     
     
+    public int initialCheck() {
+        int instantAnswer = knownRhs;
+        
+        for (int var : unknownRhs) {
+            if (var != 0) {
+                instantAnswer = 0;
+                break;
+            }
+        }
+        
+        return instantAnswer;
+    }
+    
+    
     public boolean checkBoundariesFor(int[] coefficients) {
-        boolean success = true;
+        int[] currentMin = new int[maxConstrants.length];
+        int[] currentMax = maxConstrants.clone();
         
         for (int r = 0; r < solver.n; r++) {
-            int lhs = 0;
-            for (int c = 0; c < solver.count; c++) {
-                lhs += coefficients[c] * solver.matrix[r][c];
+            int rhs = solver.matrix[r][solver.m - 1];
+            
+            for (int c = 0; c < solver.m - 1; c++) {
+                int coef = solver.matrix[r][c];
+                if (coef == 0) {
+                    continue;
+                }
+                
+                float constraint = (float) rhs / coef;
+                
+                if (coef > 0) {
+                    currentMax[c] = Math.min(currentMax[c], (int) Math.ceil(constraint));
+                } else {
+                    currentMin[c] = Math.max(currentMin[c], (int) Math.floor(constraint));
+                }
             }
+        }
+        
+        boolean success = true;
+        
+        for (int i = 0; i < coefficients.length; i++) {
+            boolean minOkay = coefficients[i] >= currentMin[i];
+            boolean maxOkay = coefficients[i] <= currentMax[i];
             
-            int rhs = solver.matrix[r][solver.count];
-            
-            // Check if the LHS for these coefficients
-            //  is less than or equal to RHS (must be)
-            if (lhs > rhs) {
-                success = false;
+            success = minOkay && maxOkay;
+            if (!success) {
                 break;
             }
         }

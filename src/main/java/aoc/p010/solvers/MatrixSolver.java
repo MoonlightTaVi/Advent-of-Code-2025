@@ -66,15 +66,19 @@ public class MatrixSolver {
     
     
     public long solve() {
+        long bestSolution = Integer.MAX_VALUE;
+        Solution solutions = new Solution(this);
+        
+        if (instantSolution == 0) {
+            instantSolution = solutions.initialCheck();
+        }
+        
         // If we have a simple solution already
         //  return it
         if (instantSolution != 0) {
             System.out.printf("The instant answer is: %d%n", instantSolution);
             return instantSolution;
         }
-        
-        long bestSolution = Integer.MAX_VALUE;
-        Solution solutions = new Solution(this);
         
         for (int[] coefficients : solutions) {
             print("Check solution...");
