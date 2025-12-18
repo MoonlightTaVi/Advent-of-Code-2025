@@ -202,6 +202,93 @@ public class Matrix {
     
     
     /**
+     * If there are rows that do not overlap, and the whole group
+     * of this rows covers all of the columns, there's a single
+     * possible answer to the matrix resolution. <br>
+     * This method is not "smart", which means it will not always
+     * find this exact solution for the matrix, but it solves
+     * most of the cases.
+     * @return The only possible solution for the matrix. Returns 0
+     * if could not find such solution.
+     */
+    public int checkOverlapsOfRows() {
+        // Find masks of each row
+        List<Integer> rowMasks = new ArrayList<>();
+        for (int r = 0; r < n; r++) {
+            int mask = 0;
+            for (int c = 0; c < m - 1; c++) {
+                if (table[r][c] == 1) {
+                    mask = (mask | (1 << c));
+                }
+            }
+            rowMasks.add(mask);
+        }
+        
+        // The required mask is '1' at each bit
+        //  (a full no-overlap)
+        int requiredMask = 0;
+        for (int c = 0; c < m - 1; c++) {
+            requiredMask = (requiredMask | 1 << c);
+        }
+        
+        // The group that must correspond to the required mask
+        List<Integer> finalGroup = new ArrayList<>();
+        int width = rowMasks.size();
+        
+        // Each row forms its own group
+        for (int i = 0; i < width; i++) {
+            List<Integer> group = new ArrayList<>();
+            group.add(i);
+            
+            // The mask of the whole group (start from maskI)
+            int groupMask = rowMasks.get(i);
+            
+            // Check against all other rows
+            for (int j = 0; j < width; j++) {
+                if (i == j) {
+                    continue;
+                }
+
+                boolean success = true;
+                int maskJ = rowMasks.get(j);
+                
+                // Check row J against all masks in the group
+                for (int k = 0; k < group.size(); k++) {
+                    int rowK = group.get(k);
+                    int maskK = rowMasks.get(rowK);
+                    
+                    // Check if the two masks do not overlap
+                    if ((maskK & maskJ) != 0) {
+                        success = false;
+                        break;
+                    }
+                    
+                }
+                
+                // Update group mask
+                if (success) {
+                    groupMask = (groupMask | maskJ);
+                    group.add(j);
+                }
+            }
+            
+            // The final group has been found
+            if (groupMask == requiredMask) {
+                finalGroup = group;
+                break;
+            }
+        }
+        
+        int sum = 0;
+        for (int rowId : finalGroup) {
+            sum += table[rowId][m - 1];
+        }
+        
+        return sum;
+    }
+    
+    
+    /**
      * Makes two rows in the matrix swap their position.
      * @param firstId The ID of the first row in the matrix.
      * @param secondId The ID of the second row in the matrix.

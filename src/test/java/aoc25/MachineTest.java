@@ -177,4 +177,19 @@ public class MachineTest {
         
         Assertions.assertEquals(expected, result);
     }
+    
+    
+    @Test
+    public void cheezySolutionTest() {
+        int[][] table = {
+                { 1, 0, 0 , 1},
+                { 0, 1, 0, 1},
+                { 0, 1, 1, 2},
+        };
+        
+        Matrix matrix = new Matrix(table);
+        int result = matrix.checkOverlapsOfRows();
+        
+        Assertions.assertEquals(3, result);
+    }
 }
