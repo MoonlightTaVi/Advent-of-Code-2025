@@ -156,15 +156,18 @@ public class Matrix {
         int row = 0;
         int column = 0;
         
-        while (row < n && column < m - 1) {
+        while (row < n && column < m) {
             
             // Find a row that has an appropriate leading element
             int pivotRow = findPivotRow(row, column);
             
             // Not possible to form a pivot
             if (pivotRow == -1) {
-                // Save this column as containing a free variable
-                freeVariables.add(column);
+                // Don't save the last column
+                if (column != m - 1) {
+                    // Save this column as containing a free variable
+                    freeVariables.add(column);
+                }
                 
                 // Skip to the next column
                 column++;
@@ -344,7 +347,7 @@ public class Matrix {
         boolean success = true;
         
         for (int i = leadID + 1; i < m; i++) {
-            if (row[leadID] % lead != 0) {
+            if (row[i] % lead != 0) {
                 success = false;
                 break;
             }
