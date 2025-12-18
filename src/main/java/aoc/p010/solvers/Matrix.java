@@ -1,5 +1,8 @@
 package aoc.p010.solvers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import aoc.p010.factory.StartedMachine;
 
 
@@ -18,6 +21,9 @@ public class Matrix {
 
     /** Table of the matrix. */
     public final int[][] table;
+    
+    /* List of columns that contain free variables. **/
+    public List<Integer> freeVariables = new ArrayList<>();
     
     
     /**
@@ -107,9 +113,12 @@ public class Matrix {
             
             // Not possible to form a pivot
             if (pivotRow == -1) {
-                // TODO Increment free variables count
+                // Save this column as containing a free variable
+                freeVariables.add(column);
+                
                 // Skip to the next column
                 column++;
+                
                 continue;
             }
             
@@ -143,16 +152,19 @@ public class Matrix {
         int row = 0;
         int column = 0;
         
-        while (row < n && column < m) {
+        while (row < n && column < m - 1) {
             
             // Find a row that has an appropriate leading element
             int pivotRow = findPivotRow(row, column);
             
             // Not possible to form a pivot
             if (pivotRow == -1) {
-                // TODO Increment free variables count
+                // Save this column as containing a free variable
+                freeVariables.add(column);
+                
                 // Skip to the next column
                 column++;
+                
                 continue;
             }
             
@@ -177,6 +189,10 @@ public class Matrix {
             // Next step
             row++;
             column++;
+        }
+        
+        for (int i = column; i < m - 1; i++) {
+            freeVariables.add(i);
         }
     }
     
