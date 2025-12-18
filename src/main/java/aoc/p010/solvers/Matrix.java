@@ -217,7 +217,7 @@ public class Matrix {
         for (int r = 0; r < n; r++) {
             int mask = 0;
             for (int c = 0; c < m - 1; c++) {
-                if (table[r][c] == 1) {
+                if (table[r][c] != 0) {
                     mask = (mask | (1 << c));
                 }
             }

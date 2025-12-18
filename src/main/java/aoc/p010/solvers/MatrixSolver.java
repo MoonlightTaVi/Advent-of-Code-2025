@@ -22,9 +22,16 @@ public class MatrixSolver {
     /** Initial maximal constraint for each free variable. */
     final int[] initialMaxConstraints;
     
+    long instantSolution;
+    
     
     public MatrixSolver(StartedMachine machine) {
         Matrix mat = new Matrix(machine);
+        System.out.println("Solving matrix:");
+        mat.print(true);
+        
+        // Check for an obvious solution
+        instantSolution = mat.checkOverlapsOfRows();
         mat.matrixToRREF();
         
         count = mat.freeVariables.size();
@@ -49,12 +56,23 @@ public class MatrixSolver {
             matrix[i][m - 1] = mat.table[i][mat.m - 1];
         }
         
-        System.out.println("Solving matrix:");
+        // Check again after the matrix has been transformed to RREF
+        if (instantSolution == 0) {
+            instantSolution = mat.checkOverlapsOfRows();
+        }
+        
         mat.print(true);
     }
     
     
     public long solve() {
+        // If we have a simple solution already
+        //  return it
+        if (instantSolution != 0) {
+            System.out.printf("The instant answer is: %d%n", instantSolution);
+            return instantSolution;
+        }
+        
         long bestSolution = Integer.MAX_VALUE;
         Solution solutions = new Solution(this);
         
@@ -72,6 +90,8 @@ public class MatrixSolver {
                 bestSolution = solution;
             }
         }
+        
+        System.out.printf("The answer is: %d%n", bestSolution);
         
         return bestSolution;
     }
