@@ -70,6 +70,10 @@ public class Matrix {
      * @see #debug
      */
     public void print() {
+        print(debug);
+    }
+    
+    public void print(boolean debug) {
         if (!debug) {
             return;
         }

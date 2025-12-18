@@ -7,6 +7,7 @@ import aoc.p010.factory.StartedMachine;
  * 
  */
 public class MatrixSolver {
+    static final boolean debug = false;
 
     /** Number of free variables. */
     final int count;
@@ -47,6 +48,9 @@ public class MatrixSolver {
         for (int i = 0; i < n; i++) {
             matrix[i][m - 1] = mat.table[i][mat.m - 1];
         }
+        
+        System.out.println("Solving matrix:");
+        mat.print(true);
     }
     
     
@@ -55,16 +59,33 @@ public class MatrixSolver {
         Solution solutions = new Solution(this);
         
         for (int[] coefficients : solutions) {
+            print("Check solution...");
             if (!solutions.checkBoundariesFor(coefficients)) {
+                print("Solution invalid.");
                 continue;
             }
-            
+
+            print("Found solution, calculate the result...");
             long solution = solutions.solveFor(coefficients);
             if (solution < bestSolution) {
+                print("Update the result");
                 bestSolution = solution;
             }
         }
         
         return bestSolution;
+    }
+    
+    
+    private void print(String message) {
+        if (!debug) {
+            return;
+        }
+        
+        StringBuilder spaces = new StringBuilder();
+        for (int i = 0; i < 25; i++) {
+            spaces.append('\s');
+        }
+        System.out.print(message + spaces.toString() + '\r');
     }
 }
