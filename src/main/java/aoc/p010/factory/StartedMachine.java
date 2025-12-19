@@ -1,11 +1,11 @@
 package aoc.p010.factory;
 
-import aoc.p010.solvers.MatrixSolver;
+import aoc.p010.solvers.JoltageSolver;
 
 
 public class StartedMachine extends Machine {
     
-    public final MatrixSolver solver;
+    public final JoltageSolver solver;
 
     
     public StartedMachine(
@@ -15,13 +15,13 @@ public class StartedMachine extends Machine {
             ) {
         super(startedStateStr, buttonsStr, requiredJoltageStr);
         
-        solver = new MatrixSolver(this);
+        solver = new JoltageSolver();
     }
 
     
     @Override
     public long solve() {
-        return solver.solve();
+        return solver.solve(this);
     }
     
 }

@@ -1,6 +1,7 @@
-package aoc.p010.solvers;
+package aoc.p010.solvers.matrix;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,26 +69,71 @@ public class Matrix {
     
     /**
      * Prints the matrix to the console. <br>
-     * Debug mode must be set to true.
+     * Debug mode must be set to true. <br>
+     * Prints the matrix in the style of an array, to easily copy-paste
+     * to some script.
      * @see #debug
      */
     public void print() {
         print(debug);
     }
     
+    /**
+     * Prints a matrix without the need of the debug mode on;
+     * uses custom boolean toggle for this purpose. <br>
+     * Prints the matrix in the style of an array, to easily copy-paste
+     * to some script.
+     * @param debug If set to true, the matrix will be printed to the
+     * console.
+     */
     public void print(boolean debug) {
         if (!debug) {
             return;
         }
         
-        for (int[] row : table) {
-            System.out.print("[");
-            for (int element : row) {
-                System.out.printf("%d, ", element);
-            }
-            System.out.println("],");
-        }
+        // Convert all elements to strings
+        // Then join each row in one string
+        // Then surround with square braces
+        String[] str = Arrays.stream(table)
+                .map(row -> Arrays.stream(row).boxed()
+                        .map(n -> String.valueOf(n))
+                        .toArray(String[]::new)
+                        )
+                .map(row -> String.join(",", row))
+                .map(row -> String.format("[%s]", row))
+                .toArray(String[]::new);
+        
+        // Place each row on a separate line, delimited with a comma
+        String matrixStr = String.join(",\n", str);
+        System.out.println(matrixStr);
+        // Empty line
         System.out.println();
+    }
+    
+    
+    /**
+     * Checks if each column of the matrix is a pivot column. <br>
+     * Combines each row into a single array; if the rows do not
+     * overlap, the solution of the matrix is the sum of the RHS's
+     * of the equalities.
+     * @return The instant solution for the matrix (if possible);
+     * 0 if there's no obvious solution.
+     */
+    public int checkObviousSolution() {
+        int[] combined = new int[cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                combined[c] += table[r][c];
+            }
+        }
+        
+        for (int i = 0; i < cols - 1; i++) {
+            if (combined[i] != 1) {
+                return 0;
+            }
+        }
+        
+        return combined[cols - 1];
     }
     
     
@@ -143,24 +189,6 @@ public class Matrix {
                 freeVariables.add(c);
             }
         }
-    }
-    
-    
-    public int checkOnlyPivots() {
-        int[] combined = new int[cols];
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                combined[c] += table[r][c];
-            }
-        }
-        
-        for (int i = 0; i < cols - 1; i++) {
-            if (combined[i] != 1) {
-                return 0;
-            }
-        }
-        
-        return combined[cols - 1];
     }
     
     

@@ -1,16 +1,20 @@
-package aoc.p010.solvers;
+package aoc.p010.solvers.matrix;
 
 import java.util.Iterator;
 
 
-public class SolutionsIterator implements Iterator<int[]> {
+/**
+ * Iterates over all possible combinations of the free variables
+ * in the matrix.
+ */
+public class VariablesIterator implements Iterator<int[]> {
     final int[] step;
     final int[] constraints;
     
     boolean loopedItself = false;
 
-    public SolutionsIterator(MatrixSolver forSolver) {
-        constraints = forSolver.initialMaxConstraints;
+    public VariablesIterator(MatrixBruteforce forSolver) {
+        constraints = forSolver.maxConstraints;
         // Start for all set to zeroes
         step = new int[constraints.length];
     }

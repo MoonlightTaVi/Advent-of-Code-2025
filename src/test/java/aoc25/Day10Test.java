@@ -8,12 +8,13 @@ import aoc.p010.Elf;
 import aoc.p010.MachineFactory;
 import aoc.p010.factory.*;
 import aoc.p010.solvers.*;
+import aoc.p010.solvers.matrix.Matrix;
 
 
 /**
  * JUnit tests for day 10.
  */
-public class MachineTest {
+public class Day10Test {
     
     static MachineFactory reader;
     
@@ -136,13 +137,6 @@ public class MachineTest {
             {3, 11, 5, 35}
     };
     
-    
-    static int[][] testMatrixEchelone = {
-            {1, 3, 1, 9},
-            {0, -2, -2, -8},
-            {0, 0, 0, 0}
-    };
-    
     static int[][] testMatrixFinal = {
             {1, 0, -2, -3},
             {0, 1, 1, 4},
@@ -154,7 +148,10 @@ public class MachineTest {
     public void matrixTest() {
         Matrix matrix = new Matrix(testMatrix);
         
+        matrix.print(true);
         matrix.matrixToRREF();
+        matrix.print(true);
+        
         Assertions.assertArrayEquals(testMatrixFinal, matrix.table);
     }
     
@@ -162,13 +159,8 @@ public class MachineTest {
     @Test
     public void solverTest() {
         StartedMachine machine = (StartedMachine) reader.getStartedMachine(0);
-        MatrixSolver solver = machine.solver;
         
-        // Just an initial test
-        //Assertions.assertEquals(11, solver.combined[6]);
-        
-        // The actual test
-        long result = solver.solve();
+        long result = machine.solve();
         long expected = 10;
         
         Assertions.assertEquals(expected, result);
@@ -184,7 +176,7 @@ public class MachineTest {
         };
         
         Matrix matrix = new Matrix(table);
-        int result = matrix.checkOnlyPivots();
+        int result = matrix.checkObviousSolution();
         
         Assertions.assertEquals(4, result);
     }
