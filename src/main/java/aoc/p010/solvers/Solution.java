@@ -40,11 +40,11 @@ public class Solution implements Iterable<int[]> {
     }
     
     
-    public boolean checkBoundariesFor(int[] coefficients) {
-        int[] currentMin = new int[maxConstrants.length];
-        int[] currentMax = maxConstrants.clone();
+    public boolean checkBoundariesFor(int[] values) {
+        boolean success = true;
         
         for (int r = 0; r < solver.n; r++) {
+            int lhs = 0;
             int rhs = solver.matrix[r][solver.m - 1];
             
             for (int c = 0; c < solver.m - 1; c++) {
@@ -53,24 +53,11 @@ public class Solution implements Iterable<int[]> {
                     continue;
                 }
                 
-                float constraint = (float) rhs / coef;
-                
-                if (coef > 0) {
-                    currentMax[c] = Math.min(currentMax[c], (int) Math.ceil(constraint));
-                } else {
-                    currentMin[c] = Math.max(currentMin[c], (int) Math.floor(constraint));
-                }
+                lhs += values[c] * coef;
             }
-        }
-        
-        boolean success = true;
-        
-        for (int i = 0; i < coefficients.length; i++) {
-            boolean minOkay = coefficients[i] >= currentMin[i];
-            boolean maxOkay = coefficients[i] <= currentMax[i];
             
-            success = minOkay && maxOkay;
-            if (!success) {
+            if (lhs > rhs) {
+                success = false;
                 break;
             }
         }

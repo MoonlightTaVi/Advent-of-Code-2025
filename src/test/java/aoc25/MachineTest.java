@@ -150,13 +150,9 @@ public class MachineTest {
     };
     
     
-    @SuppressWarnings("deprecation")
     @Test
     public void matrixTest() {
         Matrix matrix = new Matrix(testMatrix);
-        
-        matrix.matrixToREF();
-        Assertions.assertArrayEquals(testMatrixEchelone, matrix.table);
         
         matrix.matrixToRREF();
         Assertions.assertArrayEquals(testMatrixFinal, matrix.table);
@@ -182,14 +178,14 @@ public class MachineTest {
     @Test
     public void cheezySolutionTest() {
         int[][] table = {
-                { 1, 0, 0 , 1},
-                { 0, 1, 0, 1},
-                { 0, 1, 1, 2},
+                { 1, 0, 1, 0, 1},
+                { 0, 1, 0, 0, 1},
+                { 0, 0, 0, 1, 2},
         };
         
         Matrix matrix = new Matrix(table);
         int result = matrix.checkOverlapsOfRows();
         
-        Assertions.assertEquals(3, result);
+        Assertions.assertEquals(4, result);
     }
 }

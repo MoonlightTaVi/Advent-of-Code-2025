@@ -36,7 +36,7 @@ public class MatrixSolver {
         
         count = mat.freeVariables.size();
         m = count + 1;
-        n = mat.n;
+        n = mat.rows;
         matrix = new int[n][m];
         initialMaxConstraints = new int[count];
         
@@ -53,7 +53,7 @@ public class MatrixSolver {
         
         // Set the rightmost matrix column to RHS of inequalities.
         for (int i = 0; i < n; i++) {
-            matrix[i][m - 1] = mat.table[i][mat.m - 1];
+            matrix[i][m - 1] = mat.table[i][mat.cols - 1];
         }
         
         // Check again after the matrix has been transformed to RREF
@@ -95,7 +95,11 @@ public class MatrixSolver {
             }
         }
         
-        System.out.printf("The answer is: %d%n", bestSolution);
+        System.out.printf("The answer is: %d%rows", bestSolution);
+        
+        if (bestSolution == Integer.MAX_VALUE) {
+            throw new RuntimeException("Could not solve the matrix.");
+        }
         
         return bestSolution;
     }

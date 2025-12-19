@@ -15,9 +15,9 @@ public class Matrix {
     public final boolean debug = false;
     
     /** Number of columns. */
-    public final int m;
+    public final int cols;
     /** Number of rows. */
-    public final int n;
+    public final int rows;
 
     /** Table of the matrix. */
     public final int[][] table;
@@ -34,8 +34,8 @@ public class Matrix {
      */
     public Matrix(int[][] matrix) {
         table = matrix;
-        n = table.length;
-        m = table[0].length;
+        rows = table.length;
+        cols = table[0].length;
     }
     
     /**
@@ -45,17 +45,17 @@ public class Matrix {
     public Matrix(StartedMachine machine) {
         // Columns (for each button)
         // Add 1 column for the required joltage of the row
-        m = machine.buttons.length + 1;
+        cols = machine.buttons.length + 1;
         // Rows (for each joltage)
-        n = machine.requiredJoltage.length;
+        rows = machine.requiredJoltage.length;
         
-        table = new int[n][];
-        for (int i = 0; i < n; i++) {
-            table[i] = new int[m];
-            table[i][m - 1] = (int) machine.requiredJoltage[i];
+        table = new int[rows][];
+        for (int i = 0; i < rows; i++) {
+            table[i] = new int[cols];
+            table[i][cols - 1] = (int) machine.requiredJoltage[i];
         }
         
-        for (int i = 0; i < m - 1; i++) {
+        for (int i = 0; i < cols - 1; i++) {
             // The machine button arrays refer to joltage IDs
             for (int id : machine.buttons[i]) {
                 table[id][i] = 1;
@@ -88,118 +88,48 @@ public class Matrix {
     }
     
     
-    /**
-     * Transforms this matrix to its final RREF form
-     * and returns the resulting 2D array.
-     * @return 2D integer array of the RREF of the matrix.
-     */
-    public int[][] build() {
-        //matrixToREF();
-        matrixToRREF();
-        
-        return table;
-    }
-    
-    
-    /**
-     * Transforms this matrix into the row echelon form. <br>
-     * For testing purposes only, use {@code build()} instead.
-     */
-    @Deprecated
-    public void matrixToREF() {
-        int row = 0;
-        int column = 0;
-        
-        while (row < n && column < m) {
-            
-            // Find a row that has an appropriate leading element
-            int pivotRow = findPivotRow(row, column);
-            
-            // Not possible to form a pivot
-            if (pivotRow == -1) {
-                // Save this column as containing a free variable
-                freeVariables.add(column);
-                
-                // Skip to the next column
-                column++;
-                
-                continue;
-            }
-            
-            // Swap current row and pivot row
-            swapRows(row, pivotRow);
-            
-            // Make current (pivot) row have 1 as its leading element
-            //divideByLeading(table[row], column);
-            
-            // Make all rows below the current row (ONLY below)
-            //  have zeroes at the pivot column
-            //  (so the only non-zero element of this column
-            //   BELOW the pivot row and including the pivot row
-            //   is the leading element (1) of the pivot row)
-            //    (techically, it's not a pivot row this way)
-            for (int i = row + 1; i < n; i++) {
-                subtract(table[i], table[row], column);
-            }
-            
-            // Next step
-            row++;
-            column++;
-        }
-    }
     
     /**
      * Transforms this matrix into the reduced row echelon form. <br>
      * For testing purposes only, use build() instead.
      */
     public void matrixToRREF() {
-        int row = 0;
-        int column = 0;
+        int pivotRow = 0;
         
-        while (row < n && column < m) {
+        for (int c = 0; c < cols - 1; c++) {
+            if (pivotRow >= rows) {
+                break;
+            }
             
             // Find a row that has an appropriate leading element
-            int pivotRow = findPivotRow(row, column);
+            int bestRow = findPivotRow(pivotRow, c);
             
             // Not possible to form a pivot
-            if (pivotRow == -1) {
-                // Don't save the last column
-                if (column != m - 1) {
-                    // Save this column as containing a free variable
-                    freeVariables.add(column);
-                }
-                
-                // Skip to the next column
-                column++;
-                
+            if (bestRow == -1) {
+                freeVariables.add(c);
                 continue;
             }
             
             // Swap current row and pivot row
-            swapRows(row, pivotRow);
+            swapRows(pivotRow, bestRow);
             
             // Make current (pivot) row have 1 as its leading element
-            divideByLeading(table[row], column);
+            divideByLeading(table[pivotRow], c);
             
             // Make all rows above and below the current row
             //  have zeroes at the pivot column
             //  (so the only non-zero element of this column
             //   is the leading element (1) of the pivot row)
-            for (int i = 0; i < n; i++) {
-                if (i == row) {
+            for (int r = 0; r < rows; r++) {
+                if (r == pivotRow) {
                     continue;
                 }
                 
-                subtract(table[i], table[row], column);
+                subtract(table[r], table[pivotRow], c);
             }
             
             // Next step
-            row++;
-            column++;
-        }
-        
-        for (int i = column; i < m - 1; i++) {
-            freeVariables.add(i);
+            pivotRow++;
         }
     }
     
@@ -215,26 +145,21 @@ public class Matrix {
      * if could not find such solution.
      */
     public int checkOverlapsOfRows() {
+        // TODO Bit masks of buttons, not rows!
         // Find masks of each row
         List<Integer> rowMasks = new ArrayList<>();
-        for (int r = 0; r < n; r++) {
+        for (int r = 0; r < rows; r++) {
             int mask = 0;
-            for (int c = 0; c < m - 1; c++) {
-                if (table[r][c] != 0) {
+            for (int c = 0; c < cols - 1; c++) {
+                if (table[r][c] == 1) {
                     mask = (mask | (1 << c));
                 }
             }
             rowMasks.add(mask);
         }
         
-        // The required mask is '1' at each bit
-        //  (a full no-overlap)
-        int requiredMask = 0;
-        for (int c = 0; c < m - 1; c++) {
-            requiredMask = (requiredMask | 1 << c);
-        }
+        int lastMask = 0;
         
-        // The group that must correspond to the required mask
         List<Integer> finalGroup = new ArrayList<>();
         int width = rowMasks.size();
         
@@ -276,15 +201,27 @@ public class Matrix {
             }
             
             // The final group has been found
-            if (groupMask == requiredMask) {
+            if (groupMask > lastMask) {
                 finalGroup = group;
+                lastMask = groupMask;
                 break;
             }
         }
         
+        int bitsCount = 0;
+        for (int i = 0; i < cols; i++) {
+            if ((lastMask & (1 << i)) != 0) {
+                bitsCount++;
+            }
+        }
+        
+        if (bitsCount < rows) {
+            return 0;
+        }
+        
         int sum = 0;
         for (int rowId : finalGroup) {
-            sum += table[rowId][m - 1];
+            sum += table[rowId][cols - 1];
         }
         
         return sum;
@@ -310,17 +247,17 @@ public class Matrix {
     /**
      * Finds the ID of the row in the matrix that corresponds
      * to the appropriate conditions of a pivot row.
-     * @param row Row to start searching from.
-     * @param column Pivot column that must have the leading element.
+     * @param fromRow Row to start searching from.
+     * @param atColumn Pivot column that must have the leading element.
      * @return The ID of the first row that can form a pivot.
      * Returns -1 if this column cannot form a pivot and must be skipped.
      */
-    private int findPivotRow(int row, int column) {
+    private int findPivotRow(int fromRow, int atColumn) {
         int result = -1;
         
-        for (int i = row; i < n; i++) {
-            if (checkDivision(table[i], column)) {
-                result = i;
+        for (int r = fromRow; r < rows; r++) {
+            if (checkDivision(table[r], atColumn)) {
+                result = r;
                 break;
             }
         }
@@ -346,7 +283,7 @@ public class Matrix {
         
         boolean success = true;
         
-        for (int i = leadID + 1; i < m; i++) {
+        for (int i = leadID + 1; i < cols; i++) {
             if (row[i] % lead != 0) {
                 success = false;
                 break;
@@ -367,7 +304,11 @@ public class Matrix {
     private void divideByLeading(int[] row, int leadId) {
         int lead = row[leadId];
         
-        for (int i = leadId; i < m; i++) {
+        for (int i = leadId; i < cols; i++) {
+            if (row[i] % lead != 0) {
+                throw new RuntimeException("Floating point division");
+            }
+            
             row[i] /= lead;
         }
     }
@@ -388,11 +329,13 @@ public class Matrix {
      * this coefficient before subtraction.
      */
     private void subtract(int[] fromRow, int[] thisRow, int coefId) {
-        // thisRow[coefId] must be equal to 1
-        //  But double check for bugs
-        int coef = fromRow[coefId] / thisRow[coefId];
+        int coef = fromRow[coefId];
         
-        for (int i = coefId; i < m; i++) {
+        if (coef == 0) {
+            return;
+        }
+        
+        for (int i = 0; i < cols; i++) {
             fromRow[i] -= thisRow[i] * coef;
         }
     }
