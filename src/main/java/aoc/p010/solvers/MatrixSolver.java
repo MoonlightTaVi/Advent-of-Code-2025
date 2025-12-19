@@ -27,11 +27,11 @@ public class MatrixSolver {
     
     public MatrixSolver(StartedMachine machine) {
         Matrix mat = new Matrix(machine);
-        System.out.println("Solving matrix:");
-        mat.print(true);
+        //System.out.println("Solving matrix:");
+        //mat.print(true);
         
         // Check for an obvious solution
-        instantSolution = mat.checkOverlapsOfRows();
+        instantSolution = mat.checkOnlyPivots();
         mat.matrixToRREF();
         
         count = mat.freeVariables.size();
@@ -58,10 +58,10 @@ public class MatrixSolver {
         
         // Check again after the matrix has been transformed to RREF
         if (instantSolution == 0) {
-            instantSolution = mat.checkOverlapsOfRows();
+            instantSolution = mat.checkOnlyPivots();
         }
         
-        mat.print(true);
+        //mat.print(true);
     }
     
     
@@ -76,44 +76,27 @@ public class MatrixSolver {
         // If we have a simple solution already
         //  return it
         if (instantSolution != 0) {
-            System.out.printf("The instant answer is: %d%n", instantSolution);
+            //System.out.printf("The instant answer is: %d%n", instantSolution);
             return instantSolution;
         }
         
         for (int[] coefficients : solutions) {
-            print("Check solution...");
             if (!solutions.checkBoundariesFor(coefficients)) {
-                print("Solution invalid.");
                 continue;
             }
 
-            print("Found solution, calculate the result...");
             long solution = solutions.solveFor(coefficients);
             if (solution < bestSolution) {
-                print("Update the result");
                 bestSolution = solution;
             }
         }
         
-        System.out.printf("The answer is: %d%rows", bestSolution);
+        //System.out.printf("The answer is: %d%n", bestSolution);
         
         if (bestSolution == Integer.MAX_VALUE) {
             throw new RuntimeException("Could not solve the matrix.");
         }
         
         return bestSolution;
-    }
-    
-    
-    private void print(String message) {
-        if (!debug) {
-            return;
-        }
-        
-        StringBuilder spaces = new StringBuilder();
-        for (int i = 0; i < 25; i++) {
-            spaces.append('\s');
-        }
-        System.out.print(message + spaces.toString() + '\r');
     }
 }

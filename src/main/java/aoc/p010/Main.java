@@ -10,8 +10,7 @@ import aoc.Validation;
 public class Main {
     static long pressesP1 = 527;
 
-    // 42949690537 is too high
-    // A bug occurred when can't find the optimal answer and return max integer
+    // 19926 is too high
     public static void main(String[] args) {
         MachineFactory factory = new MachineFactory();
         Elf elfWorker = new Elf(factory);

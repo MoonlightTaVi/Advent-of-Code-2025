@@ -184,7 +184,7 @@ public class MachineTest {
         };
         
         Matrix matrix = new Matrix(table);
-        int result = matrix.checkOverlapsOfRows();
+        int result = matrix.checkOnlyPivots();
         
         Assertions.assertEquals(4, result);
     }

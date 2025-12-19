@@ -29,8 +29,8 @@ public class Solution implements Iterable<int[]> {
     public int initialCheck() {
         int instantAnswer = knownRhs;
         
-        for (int var : unknownRhs) {
-            if (var != 0) {
+        for (int i = 0; i < varsCount; i++) {
+            if (unknownRhs[i] != 0) {
                 instantAnswer = 0;
                 break;
             }

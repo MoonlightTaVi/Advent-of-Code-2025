@@ -25,6 +25,9 @@ public class Elf {
     public long tryToFixEmJoltages() {
         long allButtonPresses = 0;
         
+        //Machine machine = factory.getStartedMachine(10);
+        //allButtonPresses += machine.solve();
+        
         int len = factory.size();
         for (int i = 0; i < len; i++) {
             int percentage = (int) ((float) i * 100 / len );

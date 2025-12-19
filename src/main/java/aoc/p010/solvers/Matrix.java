@@ -79,10 +79,11 @@ public class Matrix {
         }
         
         for (int[] row : table) {
+            System.out.print("[");
             for (int element : row) {
-                System.out.printf("%d ", element);
+                System.out.printf("%d, ", element);
             }
-            System.out.println();
+            System.out.println("],");
         }
         System.out.println();
     }
@@ -131,100 +132,34 @@ public class Matrix {
             // Next step
             pivotRow++;
         }
+        
+        if (freeVariables.isEmpty()) {
+            return;
+        }
+        
+        int size = freeVariables.size();
+        int last = freeVariables.get(size - 1);
+        for (int c = last + 1; c < cols - 1; c++) {
+            freeVariables.add(c);
+        }
     }
     
     
-    /**
-     * If there are rows that do not overlap, and the whole group
-     * of this rows covers all of the columns, there's a single
-     * possible answer to the matrix resolution. <br>
-     * This method is not "smart", which means it will not always
-     * find this exact solution for the matrix, but it solves
-     * most of the cases.
-     * @return The only possible solution for the matrix. Returns 0
-     * if could not find such solution.
-     */
-    public int checkOverlapsOfRows() {
-        // TODO Bit masks of buttons, not rows!
-        // Find masks of each row
-        List<Integer> rowMasks = new ArrayList<>();
+    public int checkOnlyPivots() {
+        int[] combined = new int[cols];
         for (int r = 0; r < rows; r++) {
-            int mask = 0;
-            for (int c = 0; c < cols - 1; c++) {
-                if (table[r][c] == 1) {
-                    mask = (mask | (1 << c));
-                }
-            }
-            rowMasks.add(mask);
-        }
-        
-        int lastMask = 0;
-        
-        List<Integer> finalGroup = new ArrayList<>();
-        int width = rowMasks.size();
-        
-        // Each row forms its own group
-        for (int i = 0; i < width; i++) {
-            List<Integer> group = new ArrayList<>();
-            group.add(i);
-            
-            // The mask of the whole group (start from maskI)
-            int groupMask = rowMasks.get(i);
-            
-            // Check against all other rows
-            for (int j = 0; j < width; j++) {
-                if (i == j) {
-                    continue;
-                }
-
-                boolean success = true;
-                int maskJ = rowMasks.get(j);
-                
-                // Check row J against all masks in the group
-                for (int k = 0; k < group.size(); k++) {
-                    int rowK = group.get(k);
-                    int maskK = rowMasks.get(rowK);
-                    
-                    // Check if the two masks do not overlap
-                    if ((maskK & maskJ) != 0) {
-                        success = false;
-                        break;
-                    }
-                    
-                }
-                
-                // Update group mask
-                if (success) {
-                    groupMask = (groupMask | maskJ);
-                    group.add(j);
-                }
-            }
-            
-            // The final group has been found
-            if (groupMask > lastMask) {
-                finalGroup = group;
-                lastMask = groupMask;
-                break;
+            for (int c = 0; c < cols; c++) {
+                combined[c] += table[r][c];
             }
         }
         
-        int bitsCount = 0;
-        for (int i = 0; i < cols; i++) {
-            if ((lastMask & (1 << i)) != 0) {
-                bitsCount++;
+        for (int i = 0; i < cols - 1; i++) {
+            if (combined[i] != 1) {
+                return 0;
             }
         }
         
-        if (bitsCount < rows) {
-            return 0;
-        }
-        
-        int sum = 0;
-        for (int rowId : finalGroup) {
-            sum += table[rowId][cols - 1];
-        }
-        
-        return sum;
+        return combined[cols - 1];
     }
     
     
@@ -283,7 +218,7 @@ public class Matrix {
         
         boolean success = true;
         
-        for (int i = leadID + 1; i < cols; i++) {
+        for (int i = 0; i < cols; i++) {
             if (row[i] % lead != 0) {
                 success = false;
                 break;
@@ -304,8 +239,8 @@ public class Matrix {
     private void divideByLeading(int[] row, int leadId) {
         int lead = row[leadId];
         
-        for (int i = leadId; i < cols; i++) {
-            if (row[i] % lead != 0) {
+        for (int i = 0; i < cols; i++) {
+            if (row[i] != 0 && row[i] % lead != 0) {
                 throw new RuntimeException("Floating point division");
             }
             
