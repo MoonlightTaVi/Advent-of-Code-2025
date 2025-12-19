@@ -1,7 +1,9 @@
 package aoc.p010.solvers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import aoc.p010.factory.StartedMachine;
 
@@ -95,6 +97,7 @@ public class Matrix {
      * For testing purposes only, use build() instead.
      */
     public void matrixToRREF() {
+        Set<Integer> pivotColumns = new HashSet<>();
         int pivotRow = 0;
         
         for (int c = 0; c < cols - 1; c++) {
@@ -107,7 +110,6 @@ public class Matrix {
             
             // Not possible to form a pivot
             if (bestRow == -1) {
-                freeVariables.add(c);
                 continue;
             }
             
@@ -129,18 +131,17 @@ public class Matrix {
                 subtract(table[r], table[pivotRow], c);
             }
             
+            pivotColumns.add(c);
+            
             // Next step
             pivotRow++;
         }
         
-        if (freeVariables.isEmpty()) {
-            return;
-        }
         
-        int size = freeVariables.size();
-        int last = freeVariables.get(size - 1);
-        for (int c = last + 1; c < cols - 1; c++) {
-            freeVariables.add(c);
+        for (int c = 0; c < cols - 1; c++) {
+            if (!pivotColumns.contains(c)) {
+                freeVariables.add(c);
+            }
         }
     }
     
