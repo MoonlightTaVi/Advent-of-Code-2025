@@ -9,14 +9,28 @@ import aoc.FileReader;
 import aoc.p010.factory.*;
 
 
+/**
+ * Factory for the machines to start and configure. <br>
+ * Parses the resource file, prepares the Machine objects.
+ * @see #getIdleMachine(int)
+ * @see #getStartedMachine(int)
+ */
 public class MachineFactory extends FileReader {
 
+    /**
+     * Reads data from the file.
+     */
     public MachineFactory() {
         super.read("010.txt");
     }
     
     
-    public Machine getMachine(int id) {
+    /**
+     * Part 1 of the task: the machine that must be started.
+     * @param id
+     * @return
+     */
+    public Machine getIdleMachine(int id) {
         String line = super.lines[id];
         String indicators = getIndicators(line);
         String[] buttons = getButtons(line);
@@ -25,6 +39,11 @@ public class MachineFactory extends FileReader {
         return new IdleMachine(indicators, buttons, joltage);
     }
     
+    /**
+     * Part 2 of the task: the machine that must be configured.
+     * @param id
+     * @return
+     */
     public Machine getStartedMachine(int id) {
         String line = super.lines[id];
         String indicators = getIndicators(line);
@@ -34,11 +53,20 @@ public class MachineFactory extends FileReader {
         return new StartedMachine(indicators, buttons, joltage);
     }
     
+    /**
+     * Number of all the machines.
+     * @return
+     */
     public int size() {
         return super.lines.length;
     }
     
     
+    /**
+     * Parses indicators for the machine by ID.
+     * @param line
+     * @return
+     */
     public String getIndicators(String line) {
         String regex = "\\[(.*?)\\]";
         
@@ -50,6 +78,11 @@ public class MachineFactory extends FileReader {
         return indicators;
     }
     
+    /**
+     * Parses buttons for the machine by ID.
+     * @param line
+     * @return
+     */
     public String[] getButtons(String line) {
         String regex = "\\((.*?)\\)";
         
@@ -64,6 +97,11 @@ public class MachineFactory extends FileReader {
         return buttons.toArray(String[]::new);
     }
     
+    /**
+     * Parses joltages for the machine by ID.
+     * @param line
+     * @return
+     */
     public String getJoltage(String line) {
         String regex = "\\{(.*?)\\}";
         

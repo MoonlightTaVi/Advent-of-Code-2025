@@ -3,9 +3,12 @@ package aoc.p010.solvers;
 import aoc.p010.factory.Machine;
 
 
+/**
+ * Uses bit masks of each machine button to solve the part 1 problem.
+ */
 public class BitmaskSolver {
-    private final Machine machine;
     
+    private final Machine machine;
     public final int finalStateMask;
 
     
@@ -15,6 +18,12 @@ public class BitmaskSolver {
     }
     
     
+    /**
+     * Converts the indicators of the machine to a bit mask.
+     * @param startedState Something like [' ', '#', '#', ' '].
+     * @return Integer bit mask of this indicators ('#' corresponds
+     * to a bit).
+     */
     public int convertStateToMask(char[] startedState) {
         int result = 0;
         int start = startedState.length - 1;
@@ -27,6 +36,12 @@ public class BitmaskSolver {
         return result;
     }
     
+    /**
+     * Converts a button to its bit mask. Each bit corresponds to the
+     * indicator it affects.
+     * @param id ID of the button on the machine.
+     * @return Integer mask of the button.
+     */
     public int getButton(int id) {
         int[] arr = machine.buttons[id];
         
@@ -72,6 +87,12 @@ public class BitmaskSolver {
     }
     
     
+    /**
+     * Applies a combination of button presses to the machine.
+     * @param buttons Masks of buttons to be pressed.
+     * @return True if the machine was started after these buttons
+     * were pressed.
+     */
     public boolean press(int... buttons) {
         int state = 0;
         
@@ -82,6 +103,14 @@ public class BitmaskSolver {
         return state == finalStateMask;
     }
     
+    /**
+     * Applies a combination of button presses to the machine.
+     * @param combination Boolean style combination of button presses,
+     * where true corresponds to a pressed button (there's no need
+     * to press the same button twice).
+     * @return True if the machine was started after these buttons
+     * were pressed.
+     */
     public boolean press(boolean... combination) {
         int len = machine.buttons.length;
         int start = len - 1;
@@ -100,6 +129,13 @@ public class BitmaskSolver {
     }
     
     
+    /**
+     * Counts how many total button presses is in the combination.
+     * @param combination Boolean style combination of button presses,
+     * where true corresponds to a pressed button (there's no need
+     * to press the same button twice).
+     * @return
+     */
     public int countPresses(boolean... combination) {
         int count = 0;
         

@@ -3,6 +3,9 @@ package aoc.p010.factory;
 import aoc.p010.solvers.BitmaskSolver;
 
 
+/**
+ * A machine that must be started (day 10 part 1).
+ */
 public class IdleMachine extends Machine {
     
     public final BitmaskSolver solver;
@@ -19,6 +22,9 @@ public class IdleMachine extends Machine {
     }
 
     
+    /**
+     * The fewest button presses to start the machine.
+     */
     @Override
     public long solve() {
         int combos = solver.getCombinations();

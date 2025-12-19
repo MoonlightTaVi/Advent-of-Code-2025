@@ -42,7 +42,7 @@ public class Day10Test {
     
     @Test
     public void bitIndicatorsTest() {
-        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getIdleMachine(0);
         BitmaskSolver solver = machine.solver;
         
         int state = solver.finalStateMask;
@@ -52,7 +52,7 @@ public class Day10Test {
     
     @Test
     public void bitButtonTest() {
-        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getIdleMachine(0);
         BitmaskSolver solver = machine.solver;
         
         int btn0 = solver.getButton(0);
@@ -64,7 +64,7 @@ public class Day10Test {
     
     @Test
     public void bitComboTest() {
-        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getIdleMachine(0);
         BitmaskSolver solver = machine.solver;
         
         int count = solver.getCombinations();
@@ -81,7 +81,7 @@ public class Day10Test {
     
     @Test
     public void bitLastComboTest() {
-        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getIdleMachine(0);
         BitmaskSolver solver = machine.solver;
         
         // Combinations start from 0, and the 'count' is exclusive
@@ -101,7 +101,7 @@ public class Day10Test {
     
     @Test
     public void buttonsPressedTest() {
-        IdleMachine machine = (IdleMachine) reader.getMachine(0);
+        IdleMachine machine = (IdleMachine) reader.getIdleMachine(0);
         BitmaskSolver solver = machine.solver;
         
         // Press 4th and 5th buttons to start the machine
