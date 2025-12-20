@@ -11,7 +11,7 @@ import aoc.p005.Ingredients;
 /**
  * JUnit tests for day 5.
  */
-public class IngredientsTest {
+public class Day005Test {
     static FreshCounter counter;
     static Ingredients ingredients;
 

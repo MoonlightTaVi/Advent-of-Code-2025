@@ -9,7 +9,7 @@ import aoc.p008.nodes.Connection;
 import aoc.p008.nodes.JunctionSource;
 
 
-public class CircuitTest {
+public class Day008Test {
     static JunctionSource source;
     static List<Connection> connections;
 

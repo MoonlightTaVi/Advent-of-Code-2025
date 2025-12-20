@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import aoc.p001.*;
 
-public class SafeTest {
+public class Day001Test {
     
     Safe safe;
     

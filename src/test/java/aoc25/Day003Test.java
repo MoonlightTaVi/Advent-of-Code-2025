@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * JUnit tests for day 3.
  */
-public class BatteryTest {
+public class Day003Test {
     static String[] banks;
     
     

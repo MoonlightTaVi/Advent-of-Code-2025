@@ -10,7 +10,7 @@ import aoc.p007.*;
 /**
  * JUnit test for day 7.
  */
-public class BeamsTest {
+public class Day007Test {
     static Map map;
     static Beams beams;
     

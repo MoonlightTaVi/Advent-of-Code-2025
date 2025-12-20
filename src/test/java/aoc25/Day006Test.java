@@ -12,7 +12,7 @@ import aoc.p006.tables.TrickyTable;
 /**
  * Day 6 JUnit tests.
  */
-public class TableTest {
+public class Day006Test {
     
     static PlainTable table;
     static TrickyTable trickyTable;

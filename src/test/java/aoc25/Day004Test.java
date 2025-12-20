@@ -13,7 +13,7 @@ import aoc.p004.forklifts.ContinuousForklift;
 /**
  * JUnit test for day 4.
  */
-public class ForkliftTest {
+public class Day004Test {
     static BasicForklift forklift;
     static ContinuousForklift contForklift;
     

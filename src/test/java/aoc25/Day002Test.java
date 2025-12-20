@@ -9,7 +9,7 @@ import aoc.p002.ranges.*;
 /**
  * JUnit tests for day 2.
  */
-public class IdValidation {
+public class Day002Test {
     static String[] ranges;
     
     @BeforeAll

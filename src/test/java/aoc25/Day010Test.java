@@ -14,7 +14,7 @@ import aoc.p010.solvers.matrix.Matrix;
 /**
  * JUnit tests for day 10.
  */
-public class Day10Test {
+public class Day010Test {
     
     static MachineFactory reader;
     

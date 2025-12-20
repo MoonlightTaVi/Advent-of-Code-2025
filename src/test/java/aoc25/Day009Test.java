@@ -13,7 +13,7 @@ import aoc.shared.LongVector2;
 /**
  * JUnit tests for Day 9.
  */
-public class TilesTest {
+public class Day009Test {
     
     static TileReader reader;
     static TileProcessor processor;
