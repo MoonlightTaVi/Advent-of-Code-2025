@@ -23,6 +23,7 @@ public class BinaryTest {
     
     @Test
     public void raycastLeft7() {
+        @SuppressWarnings("deprecation")
         int id = search.castLeft(7, numbers);
         
         int result = numbers[id];
@@ -33,6 +34,7 @@ public class BinaryTest {
     
     @Test
     public void raycastLeft4() {
+        @SuppressWarnings("deprecation")
         int id = search.castLeft(4, numbers);
         
         int result = numbers[id];
@@ -43,6 +45,7 @@ public class BinaryTest {
     
     @Test
     public void raycastRight8() {
+        @SuppressWarnings("deprecation")
         int id = search.castRight(8, numbers);
         
         int result = numbers[id];

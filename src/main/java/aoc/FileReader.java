@@ -14,10 +14,15 @@ import aoc.p004.MapReader;
  * them.
  */
 public class FileReader {
+    
+    /** File contents. */
     public String[] lines = null;
 
+    
     /**
-     * Reads lines from a file.
+     * Reads lines from a file. The lines are saved to the field of 
+     * this object after reading, and the input stream is closed
+     * as soon as possible.
      * @param filename Name of the file inside the resources directory.
      * @return Itself.
      * @see #lines
@@ -45,6 +50,13 @@ public class FileReader {
         return this;
     }
     
+    
+    /**
+     * Returns the stream of lines that were obtained from a file. <br><br>
+     * <b>Note:</b> the file must be read first.
+     * @return Stream<String> of the text file lines.
+     * @see #read(String)
+     */
     public final Stream<String> stream() {
         return Arrays.stream(lines);
     }

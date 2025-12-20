@@ -46,23 +46,31 @@ public class BinarySearch<T, V> {
     
     
     /**
-     * Find the nearest array item that is <b>lower</b> that the search item.
+     * Find the nearest array item that is <b>lower</b> than
+     * the search item. <br> <br>
+     * <b>The search doesn't work properly for arrays that have 
+     * duplicates of items.</b>
      * @param item Item to search.
      * @param array Array to search in.
      * @return The highest ID inside the array that corresponds to:
      * the array item < search item.
      */
+    @Deprecated
     public int castLeft(T item, V[] array) {
         return cast(item, array, -1);
     }
     
     /**
-     * Find the nearest array item that is <b>higher</b> that the search item.
+     * Find the nearest array item that is <b>higher</b> 
+     * than the search item. <br> <br>
+     * <b>The search doesn't work properly for arrays that have 
+     * duplicates of items.</b>
      * @param item Item to search.
      * @param array Array to search in.
      * @return The lowest ID inside the array that corresponds to:
      * the array item > search item.
      */
+    @Deprecated
     public int castRight(T item, V[] array) {
         return cast(item, array, 1);
     }
